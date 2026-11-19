@@ -87,6 +87,11 @@
         }
         .preview-badge { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.2); color: #fff; font-size: 10px; padding: 4px 10px; border-radius: 12px; font-weight: 600; z-index: 3; }
         
+        /* Видео внутри превью */
+        #user-video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; display: none;
+        }
+
         .preview-title { position: absolute; left: 10px; right: 10px; top: 35px; text-align: center; color: #FFFFFF; font-size: 18px; font-weight: 800; line-height: 1.2; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.5); word-wrap: break-word; transition: 0.3s; }
         .preview-text { position: absolute; left: 10px; right: 10px; top: 60%; transform: translateY(-50%); color: #FFD60A; font-size: 16px; font-weight: 800; text-align: center; text-transform: uppercase; line-height: 1.3; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 2; word-wrap: break-word; transition: 0.3s; }
         .preview-graphic { position: absolute; bottom: 15px; left: 10%; width: 80%; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); border-radius: 10px; padding: 6px; text-align: center; color: #fff; font-size: 10px; font-weight: 600; display: none; border: 1px solid rgba(255,255,255,0.3); z-index: 1; }
@@ -229,6 +234,19 @@
             position: relative; background: var(--bg-input); border: 2px solid transparent; border-radius: 16px; min-width: 85px; height: 60px; display: flex; justify-content: center; align-items: center; cursor: pointer; padding: 0 10px; flex-shrink: 0; text-align: center; color: var(--text-main); 
         }
         .font-btn.active { background: var(--bg-card); border-color: var(--purple-text); color: var(--purple-text); box-shadow: 0 4px 10px rgba(168, 85, 247, 0.15); }
+        
+        /* Подсветка идеальной пары */
+        .font-btn.perfect-pair {
+            border-color: #FFD700;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+        }
+        .font-btn.perfect-pair::after {
+            content: '✨';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            font-size: 14px;
+        }
 
         /* Шрифты */
         .f-inter { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 800; }
@@ -389,6 +407,7 @@
                 <!-- МАКЕТ ТЕЛЕФОНА (ID для смены формата) -->
                 <div class="preview-wrap" id="main-preview-area">
                     <div class="preview-box" id="main-preview-box">
+                        <video id="user-video" playsinline loop muted></video>
                         <div class="preview-badge">пример</div>
                         <div class="preview-title" id="preview-title">ЗАГОЛОВОК<br>ДЛЯ РИЛС</div>
                         <div class="preview-text" id="preview-text">ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ</div>
@@ -396,7 +415,7 @@
                     </div>
                 </div>
 
-                <!-- НОВАЯ КНОПКА ЗАГРУЗКИ ВИДЕО И ТЕКСТ -->
+                <!-- КНОПКА ЗАГРУЗКИ ВИДЕО -->
                 <div style="padding: 0 20px; margin-bottom: 20px; text-align: center;">
                     <input type="file" id="video-input" accept="video/*" style="display: none;" onchange="handleVideoSelect(event)">
                     <button onclick="document.getElementById('video-input').click()" style="width: 100%; padding: 16px; background: var(--logo-gradient); color: #fff; border: none; border-radius: 16px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.2); display: flex; justify-content: center; align-items: center; gap: 8px;">
@@ -404,7 +423,7 @@
                         📁 Загрузить видео
                     </button>
                     <p style="font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.4; font-weight: 500;">
-                        Максимальный размер: <b>20 МБ</b> · Форматы: MP4, MOV<br>Длительность: до 3 минут
+                        Максимальный размер: <b>50 МБ</b> · Форматы: MP4, MOV<br>Длительность: до 3 минут
                     </p>
                 </div>
 
@@ -550,6 +569,9 @@
                                 <button class="font-btn f-cinzel" data-font="Cinzel" onclick="changeFont(this, 'Cinzel', 'title')">Cinzel</button>
                                 <button class="font-btn f-dancing" data-font="Dancing Script" onclick="changeFont(this, 'Dancing Script', 'title')">Dancing</button>
                                 <button class="font-btn f-inter" data-font="Inter" onclick="changeFont(this, 'Inter', 'title')">Inter</button>
+                            </div>
+                            <div class="sub-text" style="margin-top: 10px; color: var(--purple-text); font-size: 11px;">
+                                ✨ При выборе шрифта заголовка, идеальный шрифт для субтитров подсвечивается золотым!
                             </div>
                         </div>
 
@@ -997,6 +1019,16 @@
         const userId = tg.initDataUnsafe?.user?.id || '12345678';
         const referralLink = `https://t.me/robelen_super_bot?start=ref_${userId}`;
 
+        // ================= ПАРЫ ШРИФТОВ (Умный подбор) =================
+        const fontPairs = {
+            'Montserrat': 'Inter',       // Современный гротеск
+            'Playfair Display': 'Manrope', // Элегантная классика + современный
+            'Lora': 'Montserrat',        // Классическая антиква + четкий гротеск
+            'Cinzel': 'Teko',            // Античный + узкий акцидентный
+            'Dancing Script': 'Inter',   // Рукописный + строгий
+            'Inter': 'Inter'             // Универсальный
+        };
+
         // ================= БАЗЫ ДАННЫХ (МУЗЫКА И МЕМЫ) =================
         const musicLibrary = [
             { name: 'Top Hit 2024', artist: 'Popular Artist • 120 BPM', src: 'https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg', icon: '🎵' },
@@ -1071,30 +1103,29 @@
         function searchMusic(query) { renderMusic(query); }
         function searchMemes(query) { renderMemes(query); }
 
-        // ================= ВЫБОР И ОТПРАВКА ВИДЕО =================
+        // ================= ВЫБОР И ОТПРАВКА ВИДЕО (ВНУТРИ ПРИЛОЖЕНИЯ) =================
         function handleVideoSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            // Проверка размера 20 МБ
-            if (file.size > 20 * 1024 * 1024) {
-                alert("❌ Файл больше 20 МБ! Пожалуйста, сожмите видео или выберите другое.");
+            // Проверка размера 50 МБ
+            if (file.size > 50 * 1024 * 1024) {
+                alert("❌ Файл больше 50 МБ! Пожалуйста, сожмите видео или выберите другое.");
                 event.target.value = '';
                 return;
             }
 
-            tg.HapticFeedback.notificationOccurred('success');
+            // Создаем локальную ссылку на видео и вставляем в предпросмотр
+            const videoUrl = URL.createObjectURL(file);
+            const videoEl = document.getElementById('user-video');
+            videoEl.src = videoUrl;
+            videoEl.style.display = 'block'; // Показываем видео
             
-            // Получаем выбранный формат
-            const activeFormatBtn = document.querySelector('#format-group .pill-btn.active');
-            let format = "9:16";
-            if (activeFormatBtn) {
-                format = activeFormatBtn.innerText.replace(/[^0-9:]/g, '');
-            }
+            // Меняем бейдж
+            document.querySelector('.preview-badge').innerText = 'Ваше видео';
 
-            // Отправляем данные в бота и закрываем WebApp
-            tg.sendData(JSON.stringify({ action: "request_video", format: format }));
-            tg.close();
+            tg.HapticFeedback.notificationOccurred('success');
+            showToast('Видео загружено в предпросмотр!');
         }
 
         // ================= СМЕНА ФОРМАТА =================
@@ -1247,10 +1278,31 @@
             else if (type === 'title') { document.getElementById('style-name-text-title').innerText = 'Заголовок: ' + name; }
         }
 
+        // ОБНОВЛЕННАЯ ФУНКЦИЯ СМЕНЫ ШРИФТА (Применение + Умный подбор)
         function changeFont(element, fontName, type) {
             const parent = element.parentElement;
-            parent.querySelectorAll('.font-btn').forEach(el => el.classList.remove('active'));
+            parent.querySelectorAll('.font-btn').forEach(el => {
+                el.classList.remove('active');
+                el.classList.remove('perfect-pair'); // Сбрасываем подсветку
+            });
             element.classList.add('active');
+
+            // Применяем шрифт к превью
+            const textEl = document.getElementById(type === 'sub' ? 'preview-text' : 'preview-title');
+            textEl.style.fontFamily = `'${fontName}', sans-serif`;
+
+            // Если выбран шрифт заголовка, ищем идеальную пару для субтитров
+            if (type === 'title') {
+                const pairName = fontPairs[fontName];
+                if (pairName) {
+                    const subBtns = document.querySelectorAll('#font-scroll-sub .font-btn');
+                    subBtns.forEach(btn => {
+                        if (btn.getAttribute('data-font') === pairName) {
+                            btn.classList.add('perfect-pair');
+                        }
+                    });
+                }
+            }
         }
 
         function playSubAnimation(btn, animType) {
@@ -1281,19 +1333,24 @@
             else textEl.classList.add('anim-zoom');
         }
 
+        // ОБНОВЛЕННАЯ ФУНКЦИЯ ЦВЕТА (Применение к превью)
         function setColor(el, color, type) {
             const row = document.getElementById('color-row-' + type);
             row.querySelectorAll('.color-circle, .custom-color-wrapper').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
+
+            // Применяем цвет
+            const textEl = document.getElementById(type === 'sub' ? 'preview-text' : 'preview-title');
+            textEl.style.color = color;
         }
+
+        let currentColorTarget = 'sub';
+        let selectedColor = '#A855F7';
 
         function openColorModal(type) {
             currentColorTarget = type;
             document.getElementById('color-modal').classList.add('active');
         }
-        
-        let currentColorTarget = 'sub';
-        let selectedColor = '#A855F7';
         
         function pickGridColor(color, el) {
             selectedColor = color;
@@ -1304,6 +1361,11 @@
             const row = document.getElementById('color-row-' + currentColorTarget);
             row.querySelectorAll('.color-circle, .custom-color-wrapper').forEach(c => c.classList.remove('active'));
             document.getElementById('custom-color-btn-' + currentColorTarget).classList.add('active');
+            
+            // Применяем выбранный цвет
+            const textEl = document.getElementById(currentColorTarget === 'sub' ? 'preview-text' : 'preview-title');
+            textEl.style.color = selectedColor;
+
             closeColorModal();
         }
         
@@ -1313,18 +1375,34 @@
             const parent = el.parentElement;
             parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
             el.classList.add('active');
+
+            // Применяем размер
+            const textEl = document.getElementById(type === 'sub' ? 'preview-text' : 'preview-title');
+            if (size === 'small') textEl.style.fontSize = '12px';
+            else if (size === 'medium') textEl.style.fontSize = '16px';
+            else if (size === 'large') textEl.style.fontSize = '22px';
         }
 
         function setSubPosition(el, pos) {
             const parent = el.parentElement;
             parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
             el.classList.add('active');
+
+            const textEl = document.getElementById('preview-text');
+            if(pos === 'top') { textEl.style.top = '25%'; document.getElementById('sub-slider').value = 25; }
+            else if(pos === 'center') { textEl.style.top = '60%'; document.getElementById('sub-slider').value = 60; }
+            else if(pos === 'bottom') { textEl.style.top = '85%'; document.getElementById('sub-slider').value = 85; }
         }
 
         function setTitlePosition(el, pos) {
             const parent = el.parentElement;
             parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
             el.classList.add('active');
+
+            const textEl = document.getElementById('preview-title');
+            if(pos === 'top') { textEl.style.top = '15%'; document.getElementById('title-slider').value = 15; }
+            else if(pos === 'center') { textEl.style.top = '50%'; document.getElementById('title-slider').value = 50; }
+            else if(pos === 'bottom') { textEl.style.top = '85%'; document.getElementById('title-slider').value = 85; }
         }
 
         function moveTextSlider(val, type) {

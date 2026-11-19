@@ -151,13 +151,6 @@
         .chip.active { border-color: var(--purple-text); color: var(--purple-text); background: rgba(168, 85, 247, 0.1); }
         body.dark-theme .chip.active { background: rgba(212, 184, 255, 0.15); color: #d4b8ff; }
 
-        .menu-box { background: var(--bg-card); border-radius: 24px; overflow: hidden; margin-top: 15px; margin-bottom: 30px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
-        .menu-row { padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); cursor: pointer; }
-        .menu-row:last-child { border-bottom: none; }
-        .menu-row-left h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-        .menu-row-left p { font-size: 12px; color: var(--text-muted); }
-        .menu-row-right { color: var(--text-muted); font-size: 14px; font-weight: 600; }
-
         /* ================= ВЕРСИИ (ПЕРЕЗАЛИВ) ================= */
         #versions-view { display: block; padding: 0 20px; }
         .versions-banner { background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
@@ -173,13 +166,11 @@
         .custom-checkbox svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; display: none; }
         .custom-checkbox.checked svg { display: block; }
         .checkbox-label { font-size: 14px; font-weight: 600; }
-        .dynamic-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
-
+        
         .copies-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
         .copies-grid { display: flex; gap: 10px; margin-bottom: 10px; }
         .copy-btn { flex: 1; background: var(--bg-input); border: 2px solid transparent; padding: 15px; border-radius: 16px; font-size: 18px; font-weight: 800; color: var(--text-main); cursor: pointer; }
         .copy-btn.active { background: var(--bg-card); border-color: var(--purple-text); color: var(--purple-text); }
-        .copies-subtext { font-size: 12px; color: var(--text-muted); margin-bottom: 25px; }
 
         .versions-gallery { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; margin-bottom: 15px; }
         .versions-gallery::-webkit-scrollbar { display: none; }
@@ -220,7 +211,6 @@
         .settings-card { background: var(--bg-card); border-radius: 30px; margin: 15px 20px 0 20px; padding: 25px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
         .card-section { margin-bottom: 20px; }
         .card-section:last-child { margin-bottom: 0; }
-        .section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;}
         .sub-text { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-weight: 500;}
 
         .help-icon { display: inline-flex; justify-content: center; align-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-input); color: var(--text-muted); font-size: 10px; font-weight: 800; cursor: pointer; }
@@ -239,8 +229,6 @@
             position: relative; background: var(--bg-input); border: 2px solid transparent; border-radius: 16px; min-width: 85px; height: 60px; display: flex; justify-content: center; align-items: center; cursor: pointer; padding: 0 10px; flex-shrink: 0; text-align: center; color: var(--text-main); 
         }
         .font-btn.active { background: var(--bg-card); border-color: var(--purple-text); color: var(--purple-text); box-shadow: 0 4px 10px rgba(168, 85, 247, 0.15); }
-        .font-btn.recommended::after { content: '✨'; position: absolute; top: -6px; right: -6px; font-size: 14px; background: var(--bg-card); border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.15); padding: 2px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
 
         /* Шрифты */
         .f-inter { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 800; }
@@ -256,14 +244,10 @@
         .f-jost { font-family: 'Jost', sans-serif; font-size: 16px; font-weight: 700; }
         .f-marck { font-family: 'Marck Script', cursive; font-size: 18px; }
         .f-lobster { font-family: 'Lobster', cursive; font-size: 16px; }
-        .f-press-start { font-family: 'Press Start 2P', cursive; font-size: 10px; } 
-        .f-rubik-glitch { font-family: 'Rubik Glitch', cursive; font-size: 14px; }
         .f-cormorant { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; }
         .f-merriweather { font-family: 'Merriweather', serif; font-size: 14px; font-weight: 700; }
         .f-great-vibes { font-family: 'Great Vibes', cursive; font-size: 22px; }
         .f-yeseva { font-family: 'Yeseva One', serif; font-size: 15px; }
-        .f-alegreya { font-family: 'Alegreya', serif; font-size: 16px; }
-        .f-old-standard { font-family: 'Old Standard TT', serif; font-size: 16px; }
         .f-archivo { font-family: 'Archivo Black', sans-serif; font-size: 14px; letter-spacing: -0.5px; }
         .f-teko { font-family: 'Teko', sans-serif; font-size: 22px; letter-spacing: 1px; }
         .f-manrope { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 800; }
@@ -303,14 +287,11 @@
         /* --- АУДИОРЕДАКТОР --- */
         .audio-editor { background: #1C1C1E; border-radius: 16px; padding: 15px; margin-top: 10px; position: relative; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
         .audio-timeline { height: 60px; background: #2C2C2E; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.05) 4px, rgba(255,255,255,0.05) 8px); }
-        .waveform { width: 100%; height: 40px; background: repeating-linear-gradient(90deg, #A855F7, #A855F7 2px, transparent 2px, transparent 4px, #D8B4E2 4px, #D8B4E2 5px, transparent 5px, transparent 8px); opacity: 0.7; mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q5,5 10,20 T20,20 T30,10 T40,25 T50,15 T60,30 T70,10 T80,20 T90,5 T100,20" stroke="black" fill="none" stroke-width="2"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q5,5 10,20 T20,20 T30,10 T40,25 T50,15 T60,30 T70,10 T80,20 T90,5 T100,20" stroke="black" fill="none" stroke-width="2"/></svg>'); mask-size: 100% 100%; -webkit-mask-size: 100% 100%; transition: all 0.5s ease; }
-        .audio-timeline.auto-cut-active .waveform { mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q2,10 5,20 T10,20 M15,20 Q20,5 25,20 T30,25 M35,20 Q40,15 45,20 T50,20 M60,20 Q65,10 70,20 T75,20 M85,20 Q90,15 95,20 T100,20" stroke="black" fill="none" stroke-width="2"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q2,10 5,20 T10,20 M15,20 Q20,5 25,20 T30,25 M35,20 Q40,15 45,20 T50,20 M60,20 Q65,10 70,20 T75,20 M85,20 Q90,15 95,20 T100,20" stroke="black" fill="none" stroke-width="2"/></svg>'); background: repeating-linear-gradient(90deg, #34C759, #34C759 2px, transparent 2px, transparent 4px, #A855F7 4px, #A855F7 5px, transparent 5px, transparent 8px); opacity: 0.9; }
+        .waveform { width: 100%; height: 40px; background: repeating-linear-gradient(90deg, #A855F7, #A855F7 2px, transparent 2px, transparent 4px, #D8B4E2 4px, #D8B4E2 5px, transparent 5px, transparent 8px); opacity: 0.7; }
         .trim-handle { position: absolute; top: 0; bottom: 0; width: 14px; background: #A855F7; border-radius: 4px; cursor: ew-resize; z-index: 5; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 8px rgba(168, 85, 247, 0.8); }
-        .trim-handle::after { content: ''; width: 2px; height: 20px; background: #fff; border-radius: 1px; }
         .trim-handle.left { left: 20%; }
         .trim-handle.right { right: 20%; }
         .playhead { position: absolute; top: 0; bottom: 0; width: 2px; background: #fff; z-index: 6; left: 20%; display: none; }
-        .playhead::before { content: ''; position: absolute; top: -6px; left: -4px; width: 10px; height: 10px; background: #fff; border-radius: 50%; }
         .audio-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
         .btn-play { background: var(--purple-text); color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
         .frame-adjust { display: flex; align-items: center; gap: 10px; color: #fff; font-size: 12px; font-weight: 600; }
@@ -318,8 +299,6 @@
         .info-tip { font-size: 11px; color: #8E8E93; margin-top: 15px; text-align: center; line-height: 1.4; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; }
         .btn-auto-cut { width: 100%; margin-top: 15px; background: rgba(168, 85, 247, 0.15); border: 1px dashed #A855F7; color: #fff; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .btn-auto-cut.success { background: rgba(52, 199, 89, 0.15); border-color: #34C759; color: #34C759; cursor: default; }
-        .spinner { display: none; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* --- НОВЫЕ СТИЛИ ДЛЯ МУЗЫКИ И МЕМОВ --- */
         .music-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-input); border-radius: 12px; margin-bottom: 8px; cursor: pointer; border: 1px solid transparent; transition: 0.2s; }
@@ -332,7 +311,6 @@
         .music-play { color: var(--purple-text); font-size: 18px; user-select: none; }
         
         .ai-suggest-btn { width: 100%; background: rgba(168, 85, 247, 0.1); color: var(--purple-text); border: 1px dashed var(--purple-text); padding: 12px; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px; transition: 0.2s; }
-        .ai-suggest-btn:active { background: rgba(168, 85, 247, 0.2); }
 
         .meme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .meme-card { background: var(--bg-card); border: 2px solid var(--border-light); border-radius: 16px; overflow: hidden; cursor: pointer; position: relative; transition: 0.2s; }
@@ -344,15 +322,10 @@
 
         /* --- НИЖНЯЯ ПАНЕЛЬ --- */
         .bottom-panel { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(0deg, var(--bg-body) 85%, transparent 100%); padding: 15px 20px 10px 20px; display: flex; flex-direction: column; gap: 15px; z-index: 10; }
-        .main-cta { background: var(--logo-gradient); border-radius: 20px; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; cursor: pointer; }
-        .cta-title { color: #fff; font-size: 16px; font-weight: 800; }
-        .cta-sub { color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 500; }
-        .upload-circle { width: 44px; height: 44px; border-radius: 50%; background: #ffffff; display: flex; justify-content: center; align-items: center; color: var(--purple-text); }
         
         .bottom-nav { display: flex; justify-content: space-around; padding: 5px 0; background: var(--bg-card); border-radius: 20px; box-shadow: var(--shadow-soft); }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; padding: 8px 15px; border-radius: 15px; transition: 0.2s;}
         .nav-item.active { color: var(--purple-text); background: rgba(168, 85, 247, 0.1); }
-        body.dark-theme .nav-item.active { background: rgba(212, 184, 255, 0.15); }
         .nav-icon { font-size: 18px; }
         .nav-label { font-size: 10px; font-weight: 600; }
 
@@ -384,7 +357,6 @@
         .anim-zoom { animation: anim-zoom 0.4s ease-out; }
         .word-span { display: inline-block; opacity: 0; animation: anim-spring 0.4s ease-out forwards; }
 
-        /* Новые блоки */
         .file-upload-list { margin-top: 10px; font-size: 12px; color: var(--purple-text); font-weight: 600; display: flex; flex-direction: column; gap: 5px;}
         .meme-timeline { display: none; background: var(--bg-input); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--purple-text); }
         .meme-timeline-item { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 13px; }
@@ -422,6 +394,18 @@
                         <div class="preview-text" id="preview-text">ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ</div>
                         <div class="preview-graphic" id="preview-graphic">✨ Графика и эффекты</div>
                     </div>
+                </div>
+
+                <!-- НОВАЯ КНОПКА ЗАГРУЗКИ ВИДЕО И ТЕКСТ -->
+                <div style="padding: 0 20px; margin-bottom: 20px; text-align: center;">
+                    <input type="file" id="video-input" accept="video/*" style="display: none;" onchange="handleVideoSelect(event)">
+                    <button onclick="document.getElementById('video-input').click()" style="width: 100%; padding: 16px; background: var(--logo-gradient); color: #fff; border: none; border-radius: 16px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.2); display: flex; justify-content: center; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        📁 Загрузить видео
+                    </button>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.4; font-weight: 500;">
+                        Максимальный размер: <b>20 МБ</b> · Форматы: MP4, MOV<br>Длительность: до 3 минут
+                    </p>
                 </div>
 
                 <audio id="audio-player" loop></audio>
@@ -478,15 +462,6 @@
                                 <button class="font-btn f-archivo" data-font="Archivo Black" onclick="changeFont(this, 'Archivo Black', 'sub')">Archivo</button>
                                 <button class="font-btn f-teko" data-font="Teko" onclick="changeFont(this, 'Teko', 'sub')">Teko</button>
                                 <button class="font-btn f-manrope" data-font="Manrope" onclick="changeFont(this, 'Manrope', 'sub')">Manrope</button>
-                                <button class="font-btn f-oswald" data-font="Oswald" onclick="changeFont(this, 'Oswald', 'sub')">Oswald</button>
-                                <button class="font-btn f-golos" data-font="Golos Text" onclick="changeFont(this, 'Golos Text', 'sub')">Golos</button>
-                                <button class="font-btn f-rubik" data-font="Rubik" onclick="changeFont(this, 'Rubik', 'sub')">Rubik</button>
-                                <button class="font-btn f-playfair" data-font="Playfair Display" onclick="changeFont(this, 'Playfair Display', 'sub')">Playfair</button>
-                                <button class="font-btn f-caveat" data-font="Caveat" onclick="changeFont(this, 'Caveat', 'sub')">Caveat</button>
-                                <button class="font-btn f-unbounded" data-font="Unbounded" onclick="changeFont(this, 'Unbounded', 'sub')">Unbounded</button>
-                                <button class="font-btn f-comfortaa" data-font="Comfortaa" onclick="changeFont(this, 'Comfortaa', 'sub')">Comfortaa</button>
-                                <button class="font-btn f-jost" data-font="Jost" onclick="changeFont(this, 'Jost', 'sub')">Jost</button>
-                                <button class="font-btn f-marck" data-font="Marck Script" onclick="changeFont(this, 'Marck Script', 'sub')">Marck</button>
                             </div>
                         </div>
 
@@ -568,9 +543,6 @@
                     <div class="settings-card">
                         <div class="card-section">
                             <div class="section-title">Шрифт заголовка</div>
-                            <div class="sub-text" id="title-pairing-hint" style="color: var(--purple-text); font-weight: 600; margin-bottom: 8px; display: none;">
-                                ✨ Идеальные сочетания отмечены звездочкой
-                            </div>
                             <div class="font-scroll" id="font-scroll-title">
                                 <button class="font-btn active f-montserrat" data-font="Montserrat" onclick="changeFont(this, 'Montserrat', 'title')">Montserrat</button>
                                 <button class="font-btn f-playfair" data-font="Playfair Display" onclick="changeFont(this, 'Playfair Display', 'title')">Playfair</button>
@@ -578,12 +550,6 @@
                                 <button class="font-btn f-cinzel" data-font="Cinzel" onclick="changeFont(this, 'Cinzel', 'title')">Cinzel</button>
                                 <button class="font-btn f-dancing" data-font="Dancing Script" onclick="changeFont(this, 'Dancing Script', 'title')">Dancing</button>
                                 <button class="font-btn f-inter" data-font="Inter" onclick="changeFont(this, 'Inter', 'title')">Inter</button>
-                                <button class="font-btn f-cormorant" data-font="Cormorant Garamond" onclick="changeFont(this, 'Cormorant Garamond', 'title')">Cormorant</button>
-                                <button class="font-btn f-merriweather" data-font="Merriweather" onclick="changeFont(this, 'Merriweather', 'title')">Merriweather</button>
-                                <button class="font-btn f-jost" data-font="Jost" onclick="changeFont(this, 'Jost', 'title')">Jost</button>
-                                <button class="font-btn f-comfortaa" data-font="Comfortaa" onclick="changeFont(this, 'Comfortaa', 'title')">Comfortaa</button>
-                                <button class="font-btn f-great-vibes" data-font="Great Vibes" onclick="changeFont(this, 'Great Vibes', 'title')">Great Vibes</button>
-                                <button class="font-btn f-marck" data-font="Marck Script" onclick="changeFont(this, 'Marck Script', 'title')">Marck</button>
                             </div>
                         </div>
 
@@ -673,10 +639,7 @@
                         </button>
 
                         <div class="search-container">
-                            <input type="text" class="search-input" id="music-search-input" placeholder="Найти трек или исполнителя..." oninput="searchMusic(this.value)">
-                            <button class="search-btn" onclick="searchMusic(document.getElementById('music-search-input').value)">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            </button>
+                            <input type="text" class="search-input" id="music-search-input" placeholder="Найти трек или исполнителя..." oninput="searchMusic(this.value)" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); margin-bottom: 10px;">
                         </div>
                         
                         <div id="music-list-container">
@@ -795,7 +758,7 @@
                 <!-- ВКЛАДКА МАТЕРИАЛЫ -->
                 <div id="tab-materials" class="tab-content">
                     <div class="settings-card">
-                        <div class="info-box" data-i18n="mat_info">Ваши материалы — фото и видео встанут туда, где вы о них говорите.</div>
+                        <div class="info-box" data-i18n="mat_info" style="background: var(--bg-input); padding: 15px; border-radius: 12px; font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Ваши материалы — фото и видео встанут туда, где вы о них говорите.</div>
 
                         <div class="section-title" data-i18n="memes_block">Мемы и тренды</div>
                         
@@ -816,10 +779,7 @@
                         </div>
 
                         <div class="search-container" style="margin-top: 10px;">
-                            <input type="text" class="search-input" id="meme-search-input" placeholder="Поиск мема..." oninput="searchMemes(this.value)">
-                            <button class="search-btn" onclick="searchMemes(document.getElementById('meme-search-input').value)">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            </button>
+                            <input type="text" class="search-input" id="meme-search-input" placeholder="Поиск мема..." oninput="searchMemes(this.value)" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); margin-bottom: 10px;">
                         </div>
 
                         <div class="meme-grid" id="meme-grid-container">
@@ -828,7 +788,7 @@
 
                         <div class="divider"></div>
                         <div class="section-title" data-i18n="upload_own">Свои фото и видео</div>
-                        <button class="upload-material-btn">
+                        <button class="pill-btn active" style="width: 100%; justify-content: center; padding: 15px;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                             + Загрузить файл
                         </button>
@@ -976,16 +936,6 @@
 
         <!-- Нижняя панель -->
         <div class="bottom-panel">
-            <div class="main-cta" id="main-cta-btn" style="display: none;" onclick="document.getElementById('video-input').click()">
-                <div class="cta-text">
-                    <span class="cta-title">Выбрать видео</span>
-                    <span class="cta-sub">можно несколько - до 3 минут</span>
-                </div>
-                <div class="upload-circle">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                </div>
-            </div>
-            <input type="file" id="video-input" accept="video/*" multiple style="display: none;" onchange="handleVideoSelect(event)">
             <div class="file-upload-list" id="file-list" style="display: none; margin-bottom: 10px;"></div>
 
             <div class="bottom-nav">
@@ -1052,20 +1002,14 @@
             { name: 'Top Hit 2024', artist: 'Popular Artist • 120 BPM', src: 'https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg', icon: '🎵' },
             { name: 'Энергичный бит', artist: 'Trendy Sound • 130 BPM', src: 'https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg', icon: '🔥' },
             { name: 'Спокойный Lo-Fi', artist: 'Chill Vibes • 90 BPM', src: 'https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg', icon: '🌊' },
-            { name: 'Мотивация', artist: 'Epic Music • 140 BPM', src: 'https://actions.google.com/sounds/v1/crowds/crowd_cheer.ogg', icon: '🚀' },
-            { name: 'Грустный пианино', artist: 'Sad Vibes • 70 BPM', src: 'https://actions.google.com/sounds/v1/ambiences/rain_on_window.ogg', icon: '🎹' },
-            { name: 'Ретро Вайб', artist: 'Synthwave • 110 BPM', src: 'https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg', icon: '🕹️' },
-            { name: 'Хип-Хоп Бит', artist: 'Street Style • 95 BPM', src: 'https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg', icon: '🎤' },
-            { name: 'Космический эмбиент', artist: 'Space • 60 BPM', src: 'https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg', icon: '🌌' }
+            { name: 'Мотивация', artist: 'Epic Music • 140 BPM', src: 'https://actions.google.com/sounds/v1/crowds/crowd_cheer.ogg', icon: '🚀' }
         ];
 
         const memeLibrary = [
             { title: 'Удивленный кот', img: 'https://i.imgflip.com/1ur9b0.jpg' },
             { title: 'Спанчбоб', img: 'https://i.imgflip.com/261o3j.jpg' },
             { title: 'Doge (Собака)', img: 'https://i.imgflip.com/1otk96.jpg' },
-            { title: 'Кот и женщина', img: 'https://i.imgflip.com/43a45p.png' },
-            { title: 'Смеющийся Том', img: 'https://i.imgflip.com/1otk96.jpg' },
-            { title: 'Шок (Гиф)', img: 'https://i.imgflip.com/1ur9b0.jpg' }
+            { title: 'Кот и женщина', img: 'https://i.imgflip.com/43a45p.png' }
         ];
 
         // ================= РЕНДЕР МУЗЫКИ И МЕМОВ =================
@@ -1113,7 +1057,6 @@
             });
         }
 
-        // Инициализация списков при загрузке
         document.addEventListener('DOMContentLoaded', () => {
             renderMusic();
             renderMemes();
@@ -1122,38 +1065,36 @@
             const savedTheme = localStorage.getItem('app_theme') || 'auto';
             setLanguage(savedLang);
             setTheme(savedTheme);
-            updateRecommendedTitleFonts('Inter');
         });
 
         // ================= ПОИСК =================
-        function searchMusic(query) {
-            renderMusic(query);
-        }
+        function searchMusic(query) { renderMusic(query); }
+        function searchMemes(query) { renderMemes(query); }
 
-        function searchMemes(query) {
-            renderMemes(query);
-        }
-
-        // ================= ВЫБОР ВИДЕО =================
+        // ================= ВЫБОР И ОТПРАВКА ВИДЕО =================
         function handleVideoSelect(event) {
-            const files = event.target.files;
-            const fileListDiv = document.getElementById('file-list');
-            
-            if (files.length > 0) {
-                fileListDiv.style.display = 'flex';
-                fileListDiv.innerHTML = '<span style="color: var(--text-main); font-size: 11px;">Выбрано файлов: ' + files.length + '</span>';
-                
-                for (let i = 0; i < files.length; i++) {
-                    const fileDiv = document.createElement('div');
-                    fileDiv.style.display = 'flex';
-                    fileDiv.style.alignItems = 'center';
-                    fileDiv.style.gap = '5px';
-                    fileDiv.style.color = 'var(--purple-text)';
-                    fileDiv.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> ${files[i].name} (${(files[i].size / 1024 / 1024).toFixed(1)} МБ)`;
-                    fileListDiv.appendChild(fileDiv);
-                }
-                tg.HapticFeedback.notificationOccurred('success');
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Проверка размера 20 МБ
+            if (file.size > 20 * 1024 * 1024) {
+                alert("❌ Файл больше 20 МБ! Пожалуйста, сожмите видео или выберите другое.");
+                event.target.value = '';
+                return;
             }
+
+            tg.HapticFeedback.notificationOccurred('success');
+            
+            // Получаем выбранный формат
+            const activeFormatBtn = document.querySelector('#format-group .pill-btn.active');
+            let format = "9:16";
+            if (activeFormatBtn) {
+                format = activeFormatBtn.innerText.replace(/[^0-9:]/g, '');
+            }
+
+            // Отправляем данные в бота и закрываем WebApp
+            tg.sendData(JSON.stringify({ action: "request_video", format: format }));
+            tg.close();
         }
 
         // ================= СМЕНА ФОРМАТА =================
@@ -1166,51 +1107,27 @@
             const title = document.getElementById('preview-title');
             const text = document.getElementById('preview-text');
             
-            if(format === '9:16') { 
-                box.style.width = '170px'; box.style.height = '300px'; 
-                title.style.top = '35px'; text.style.top = '60%';
-            }
-            else if(format === '16:9') { 
-                box.style.width = '300px'; box.style.height = '170px'; 
-                title.style.top = '15px'; text.style.top = '75%';
-            }
-            else if(format === '1:1') { 
-                box.style.width = '240px'; box.style.height = '240px'; 
-                title.style.top = '25px'; text.style.top = '60%';
-            }
-            else if(format === '4:5') { 
-                box.style.width = '200px'; box.style.height = '250px'; 
-                title.style.top = '25px'; text.style.top = '60%';
-            }
-            else if(format === '4:3') { 
-                box.style.width = '260px'; box.style.height = '195px'; 
-                title.style.top = '15px'; text.style.top = '70%';
-            }
+            if(format === '9:16') { box.style.width = '170px'; box.style.height = '300px'; title.style.top = '35px'; text.style.top = '60%'; }
+            else if(format === '16:9') { box.style.width = '300px'; box.style.height = '170px'; title.style.top = '15px'; text.style.top = '75%'; }
+            else if(format === '1:1') { box.style.width = '240px'; box.style.height = '240px'; title.style.top = '25px'; text.style.top = '60%'; }
+            else if(format === '4:5') { box.style.width = '200px'; box.style.height = '250px'; title.style.top = '25px'; text.style.top = '60%'; }
+            else if(format === '4:3') { box.style.width = '260px'; box.style.height = '195px'; title.style.top = '15px'; text.style.top = '70%'; }
+            
             tg.HapticFeedback.impactOccurred('light');
         }
 
         // ================= МУЗЫКА =================
         let currentlyPlaying = null;
-
         function toggleMusic(element, audioSrc) {
             const icon = element.querySelector('.music-play');
             const audio = document.getElementById('audio-player');
-
             if (currentlyPlaying === audioSrc) {
-                audio.pause();
-                icon.innerText = '▶';
-                element.classList.remove('active');
-                currentlyPlaying = null;
+                audio.pause(); icon.innerText = '▶'; element.classList.remove('active'); currentlyPlaying = null;
             } else {
                 document.querySelectorAll('.music-play').forEach(el => el.innerText = '▶');
                 document.querySelectorAll('.music-item').forEach(el => el.classList.remove('active'));
-                
-                audio.src = audioSrc;
-                audio.volume = document.getElementById('music-volume-slider').value / 100;
-                audio.play();
-                icon.innerText = '⏸';
-                element.classList.add('active');
-                currentlyPlaying = audioSrc;
+                audio.src = audioSrc; audio.volume = document.getElementById('music-volume-slider').value / 100; audio.play();
+                icon.innerText = '⏸'; element.classList.add('active'); currentlyPlaying = audioSrc;
             }
             tg.HapticFeedback.impactOccurred('light');
         }
@@ -1225,67 +1142,29 @@
             if (btn.style.pointerEvents === 'none') return;
             const originalText = btn.innerHTML;
             btn.style.pointerEvents = 'none';
-            
-            const steps = ['🎧 Слушаю вашу речь...', '🧠 Анализирую настроение...', '🎵 Ищу идеальный трек...'];
-            let currentStep = 0;
-            btn.innerHTML = steps[currentStep];
-            
-            const interval = setInterval(() => {
-                currentStep++;
-                if (currentStep < steps.length) btn.innerHTML = steps[currentStep];
-            }, 800);
-
+            btn.innerHTML = '🎧 Анализирую настроение...';
             setTimeout(() => {
-                clearInterval(interval);
                 const tracks = document.querySelectorAll('#music-list-container .music-item');
-                if(tracks.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * tracks.length);
-                    const selectedTrack = tracks[randomIndex];
-                    
-                    document.querySelectorAll('.music-play').forEach(el => el.innerText = '▶');
-                    document.querySelectorAll('.music-item').forEach(el => el.classList.remove('active'));
-                    selectedTrack.click();
-                }
-                
+                if(tracks.length > 0) { tracks[Math.floor(Math.random() * tracks.length)].click(); }
                 btn.innerHTML = '✅ ИИ подобрал идеальный трек!';
-                btn.style.background = 'rgba(52, 199, 89, 0.15)';
-                btn.style.color = '#34C759';
-                btn.style.borderColor = '#34C759';
+                btn.style.background = 'rgba(52, 199, 89, 0.15)'; btn.style.color = '#34C759'; btn.style.borderColor = '#34C759';
                 tg.HapticFeedback.notificationOccurred('success');
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = '';
-                    btn.style.color = '';
-                    btn.style.borderColor = '';
-                    btn.style.pointerEvents = 'all';
-                }, 3500);
-            }, 2500);
+                setTimeout(() => { btn.innerHTML = originalText; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; btn.style.pointerEvents = 'all'; }, 3500);
+            }, 1500);
         }
 
         function aiSuggestMemes(btn) {
             if (btn.style.pointerEvents === 'none') return;
             const originalText = btn.innerHTML;
             btn.style.pointerEvents = 'none';
-            btn.innerHTML = '🧠 Анализирую контекст видео...';
-            
+            btn.innerHTML = '🧠 Анализирую контекст...';
             setTimeout(() => {
                 btn.innerHTML = '✅ Готово! Посмотрите таймлайн';
-                btn.style.background = 'rgba(52, 199, 89, 0.15)';
-                btn.style.color = '#34C759';
-                btn.style.borderColor = '#34C759';
-                
+                btn.style.background = 'rgba(52, 199, 89, 0.15)'; btn.style.color = '#34C759'; btn.style.borderColor = '#34C759';
                 document.getElementById('meme-timeline').style.display = 'block';
                 tg.HapticFeedback.notificationOccurred('success');
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = '';
-                    btn.style.color = '';
-                    btn.style.borderColor = '';
-                    btn.style.pointerEvents = 'all';
-                }, 4000);
-            }, 2000);
+                setTimeout(() => { btn.innerHTML = originalText; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; btn.style.pointerEvents = 'all'; }, 4000);
+            }, 1500);
         }
 
         // ================= ОСТАЛЬНАЯ ЛОГИКА =================
@@ -1316,21 +1195,12 @@
                 }
             }
         }
-        
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (localStorage.getItem('app_theme') === 'auto' || !localStorage.getItem('app_theme')) {
-                if (e.matches) document.body.classList.add('dark-theme');
-                else document.body.classList.remove('dark-theme');
-            }
-        });
 
         function switchMainScreen(screenName) {
             document.querySelectorAll('.main-screen').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('screen-' + screenName).classList.add('active');
             document.getElementById('nav-' + screenName).classList.add('active');
-            const ctaBtn = document.getElementById('main-cta-btn');
-            ctaBtn.style.display = (screenName === 'montage') ? 'flex' : 'none';
         }
 
         function switchTab(tabId, element) {
@@ -1347,41 +1217,10 @@
             document.getElementById('pkg-' + type).classList.add('active');
         }
 
-        function sendVideoRequest() {
-            tg.sendData(JSON.stringify({ action: "request_video" }));
-            tg.close();
-        }
-
         function sendReuploadRequest() {
-            const mirrorChecked = document.querySelectorAll('#screen-versions .custom-checkbox')[0].classList.contains('checked');
-            const edgesChecked = document.querySelectorAll('#screen-versions .custom-checkbox')[1].classList.contains('checked');
-            const selectedCopyBtn = document.querySelector('#screen-versions .copy-btn.active');
-            const copiesCount = selectedCopyBtn ? selectedCopyBtn.innerText : "1";
-            const payload = { action: "reupload_video", mirror: mirrorChecked, edges: edgesChecked, copies: copiesCount };
-            tg.sendData(JSON.stringify(payload));
+            tg.sendData(JSON.stringify({ action: "reupload_video" }));
             tg.close();
         }
-
-        const fontPairings = {
-            'Inter': ['Cormorant Garamond', 'Playfair Display', 'Lora', 'Great Vibes', 'Yeseva One'],
-            'Montserrat': ['Cormorant Garamond', 'Merriweather', 'Playfair Display', 'Great Vibes', 'Marck Script'],
-            'Bebas Neue': ['Inter', 'Jost', 'Golos Text', 'Manrope'],
-            'Golos Text': ['Playfair Display', 'Cormorant Garamond', 'Bebas Neue', 'Lora'],
-            'Rubik': ['Jost', 'Montserrat', 'Manrope'],
-            'Oswald': ['Inter', 'Merriweather', 'Jost', 'Lora'],
-            'Playfair Display': ['Montserrat', 'Inter', 'Jost', 'Archivo Black', 'Manrope'],
-            'Caveat': ['Montserrat', 'Inter', 'Jost', 'Archivo Black'],
-            'Unbounded': ['Inter', 'Jost', 'Montserrat', 'Manrope'],
-            'Comfortaa': ['Playfair Display', 'Cormorant Garamond', 'Merriweather', 'Cinzel'],
-            'Jost': ['Cormorant Garamond', 'Playfair Display', 'Great Vibes', 'Cinzel'],
-            'Marck Script': ['Montserrat', 'Jost', 'Inter', 'Manrope'],
-            'Archivo Black': ['Lora', 'Playfair Display', 'Cormorant Garamond', 'Cinzel'],
-            'Teko': ['Montserrat', 'Inter', 'Manrope', 'Oswald'],
-            'Manrope': ['Playfair Display', 'Lora', 'Cinzel', 'Dancing Script'],
-            'Lora': ['Archivo Black', 'Montserrat', 'Manrope', 'Inter'],
-            'Cinzel': ['Manrope', 'Jost', 'Comfortaa', 'Archivo Black'],
-            'Dancing Script': ['Manrope', 'Inter', 'Montserrat', 'Archivo Black']
-        };
 
         function selectReady(element, type) {
             document.querySelectorAll('.ready-item').forEach(el => el.classList.remove('active'));
@@ -1393,310 +1232,180 @@
 
             if (type === 'only_subs') {
                 previewTitle.style.display = 'none'; previewGraphic.style.display = 'none'; previewText.style.display = 'block';
-                manualText.innerText = "Настроено вручную: Только субтитры";
             } else if (type === 'subs_title') {
                 previewTitle.style.display = 'block'; previewGraphic.style.display = 'none'; previewText.style.display = 'block';
-                manualText.innerText = "Настроено вручную: Субтитры и заголовок";
             } else if (type === 'full') {
                 previewTitle.style.display = 'block'; previewGraphic.style.display = 'block'; previewText.style.display = 'block';
-                manualText.innerText = "Настроено вручную: Полный монтаж";
             }
-            manualText.classList.add('custom-mode');
         }
 
         function selectDot(element, name, type) {
             const parent = element.parentElement;
             parent.querySelectorAll('.s-dot').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
-            if(type === 'sub') {
-                document.getElementById('style-name-text').innerText = 'Стиль субтитров: ' + name;
-                updateSubtitlePreview(name);
-            } else if (type === 'title') {
-                document.getElementById('style-name-text-title').innerText = 'Заголовок: ' + name;
-                updateTitlePreview(name);
-            }
+            if(type === 'sub') { document.getElementById('style-name-text').innerText = 'Стиль субтитров: ' + name; }
+            else if (type === 'title') { document.getElementById('style-name-text-title').innerText = 'Заголовок: ' + name; }
         }
 
-        function updateSubtitlePreview(styleName) {
-            const el = document.getElementById('preview-text');
-            el.style.display = 'block';
-            if (styleName === 'Без субтитров') el.style.display = 'none';
-            else if (styleName === 'Строка') { el.innerHTML = 'ЭТО МОЙ ЛЮБИМЫЙ МОМЕНТ'; el.style.fontSize = '12px'; }
-            else if (styleName === 'Крупный акцент') { el.innerHTML = 'ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ'; el.style.fontSize = '16px'; }
-            else if (styleName === 'Две строки') { el.innerHTML = 'ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ'; el.style.fontSize = '14px'; }
-            else if (styleName === 'По слову') { el.innerHTML = 'МОМЕНТ'; el.style.fontSize = '24px'; }
-        }
-
-        function updateTitlePreview(styleName) {
-            const el = document.getElementById('preview-title');
-            el.style.display = 'block';
-            if (styleName === 'Без заголовка') el.style.display = 'none';
-            else if (styleName === 'Две строки') { el.innerHTML = 'ЗАГОЛОВОК<br>ДЛЯ РИЛС'; el.style.fontSize = '18px'; }
-            else if (styleName === 'Тонкий + жирный') { el.innerHTML = '<span style="font-weight:300">ЗАГОЛОВОК</span><br><span style="font-weight:900">ДЛЯ РИЛС</span>'; el.style.fontSize = '20px'; }
-            else if (styleName === 'Минимализм') { el.innerHTML = 'ЗАГОЛОВОК ДЛЯ РИЛС'; el.style.fontSize = '14px'; el.style.letterSpacing = '2px'; }
-        }
-
-        function playSubAnimation(element, animType) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-
-            const phoneEl = document.getElementById('preview-text');
-            const inlineBox = document.getElementById('inline-sub-preview');
-            const inlineText = document.getElementById('inline-sub-text');
-
-            inlineBox.style.display = 'flex';
-            phoneEl.className = 'preview-text'; inlineText.className = '';
-            phoneEl.innerHTML = 'ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ'; inlineText.innerHTML = 'ЭТО МОЙ ЛЮБИМЫЙ МОМЕНТ';
-            void phoneEl.offsetWidth; void inlineText.offsetWidth; 
-
-            if (animType === 'word') {
-                const words = "ЭТО МОЙ ЛЮБИМЫЙ МОМЕНТ".split(" ");
-                phoneEl.innerHTML = ''; inlineText.innerHTML = '';
-                words.forEach((word, index) => {
-                    const spanP = document.createElement('span'); spanP.className = 'word-span'; spanP.style.animationDelay = (index * 0.15) + 's'; spanP.innerText = word + " "; phoneEl.appendChild(spanP);
-                    const spanI = document.createElement('span'); spanI.className = 'word-span'; spanI.style.animationDelay = (index * 0.15) + 's'; spanI.innerText = word + " "; inlineText.appendChild(spanI);
-                });
-            } else if (animType === 'spring') { phoneEl.classList.add('anim-spring'); inlineText.classList.add('anim-spring'); }
-            else if (animType === 'flash') { phoneEl.classList.add('anim-flash'); inlineText.classList.add('anim-flash'); }
-            else if (animType === 'typewriter') { phoneEl.classList.add('anim-typewriter'); inlineText.classList.add('anim-typewriter'); }
-        }
-
-        function playTitleAnimation(element, animType) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-
-            const phoneEl = document.getElementById('preview-title');
-            const inlineBox = document.getElementById('inline-title-preview');
-            const inlineText = document.getElementById('inline-title-text');
-
-            inlineBox.style.display = 'flex';
-            phoneEl.className = 'preview-title'; inlineText.className = '';
-            phoneEl.innerHTML = 'ЗАГОЛОВОК<br>ДЛЯ РИЛС'; inlineText.innerHTML = 'ЗАГОЛОВОК ДЛЯ РИЛС';
-            void phoneEl.offsetWidth; void inlineText.offsetWidth; 
-
-            if (animType === 'soft') { phoneEl.classList.add('anim-soft'); inlineText.classList.add('anim-soft'); }
-            else if (animType === 'curtain') { phoneEl.classList.add('anim-curtain'); inlineText.classList.add('anim-curtain'); }
-            else if (animType === 'typewriter') { phoneEl.innerHTML = 'ЗАГОЛОВОК ДЛЯ РИЛС'; phoneEl.classList.add('anim-typewriter'); inlineText.innerHTML = 'ЗАГОЛОВОК ДЛЯ РИЛС'; inlineText.classList.add('anim-typewriter'); }
-            else if (animType === 'zoom') { phoneEl.classList.add('anim-zoom'); inlineText.classList.add('anim-zoom'); }
-        }
-
-        function setTextSize(element, size, type) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            const el = type === 'sub' ? document.getElementById('preview-text') : document.getElementById('preview-title');
-            if (size === 'small') el.style.fontSize = type === 'sub' ? '12px' : '14px';
-            else if (size === 'medium') el.style.fontSize = type === 'sub' ? '16px' : '18px';
-            else if (size === 'large') el.style.fontSize = type === 'sub' ? '22px' : '24px';
-        }
-
-        function setTextAlign(element, align, type) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            const el = type === 'sub' ? document.getElementById('preview-text') : document.getElementById('preview-title');
-            el.style.textAlign = align;
-        }
-
-        function setSubPosition(element, pos) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            const slider = document.getElementById('sub-slider');
-            if (pos === 'top') slider.value = 20; if (pos === 'center') slider.value = 60; if (pos === 'bottom') slider.value = 85;
-            moveTextSlider(slider.value, 'sub');
-        }
-
-        function setTitlePosition(element, pos) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            const slider = document.getElementById('title-slider');
-            if (pos === 'top') slider.value = 15; if (pos === 'center') slider.value = 50; if (pos === 'bottom') slider.value = 75;
-            moveTextSlider(slider.value, 'title');
-        }
-
-        function moveTextSlider(value, type) {
-            const el = type === 'sub' ? document.getElementById('preview-text') : document.getElementById('preview-title');
-            el.style.top = (100 - value) + '%'; el.style.transform = 'translateY(-50%)';
-        }
-
-        function changeFont(element, fontName, type = 'sub') {
+        function changeFont(element, fontName, type) {
             const parent = element.parentElement;
             parent.querySelectorAll('.font-btn').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
-            if (type === 'sub') {
-                document.getElementById('preview-text').style.fontFamily = "'" + fontName + "', sans-serif";
-                document.getElementById('inline-sub-text').style.fontFamily = "'" + fontName + "', sans-serif";
-                updateRecommendedTitleFonts(fontName);
-            } else {
-                document.getElementById('preview-title').style.fontFamily = "'" + fontName + "', sans-serif";
-                document.getElementById('inline-title-text').style.fontFamily = "'" + fontName + "', sans-serif";
+        }
+
+        function playSubAnimation(btn, animType) {
+            const preview = document.getElementById('inline-sub-preview');
+            const textEl = document.getElementById('inline-sub-text');
+            preview.style.display = 'flex';
+            textEl.className = '';
+            textEl.style.opacity = '1';
+            
+            if (animType === 'spring') textEl.classList.add('anim-spring');
+            else if (animType === 'flash') textEl.classList.add('anim-flash');
+            else if (animType === 'typewriter') textEl.classList.add('anim-typewriter');
+            else {
+                textEl.innerHTML = 'ЭТО МОЙ ЛЮБИМЫЙ МОМЕНТ';
+                textEl.innerHTML = textEl.innerText.split(' ').map((word, i) => `<span class="word-span" style="animation-delay: ${i * 0.1}s">${word}&nbsp;</span>`).join('');
             }
         }
 
-        function updateRecommendedTitleFonts(subFont) {
-            const titleScroll = document.getElementById('font-scroll-title');
-            const titleBtns = titleScroll.querySelectorAll('.font-btn');
-            const hint = document.getElementById('title-pairing-hint');
-            titleBtns.forEach(btn => btn.classList.remove('recommended'));
-            const recommended = fontPairings[subFont] || [];
-            if (recommended.length > 0) {
-                titleBtns.forEach(btn => {
-                    const fontName = btn.getAttribute('data-font');
-                    if (recommended.includes(fontName)) btn.classList.add('recommended');
-                });
-                hint.innerText = "✨ Идеальные сочетания с «" + subFont + "» отмечены звездочкой";
-                hint.style.display = 'block';
-            } else { hint.style.display = 'none'; }
+        function playTitleAnimation(btn, animType) {
+            const preview = document.getElementById('inline-title-preview');
+            const textEl = document.getElementById('inline-title-text');
+            preview.style.display = 'flex';
+            textEl.className = '';
+            
+            if (animType === 'soft') textEl.classList.add('anim-soft');
+            else if (animType === 'curtain') textEl.classList.add('anim-curtain');
+            else if (animType === 'typewriter') textEl.classList.add('anim-typewriter');
+            else textEl.classList.add('anim-zoom');
         }
 
-        function selectPill(element) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.pill-btn, .copy-btn').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-        }
-
-        let currentColorType = 'sub';
-        let selectedColor = '#FFD60A';
-        
-        function setColor(element, colorHex, type = 'sub') {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.color-circle').forEach(el => el.classList.remove('active'));
-            parent.querySelector('.custom-color-wrapper').classList.remove('active');
-            element.classList.add('active');
-            if (type === 'sub') {
-                document.getElementById('preview-text').style.color = colorHex; document.getElementById('inline-sub-text').style.color = colorHex;
-            } else {
-                document.getElementById('preview-title').style.color = colorHex; document.getElementById('inline-title-text').style.color = colorHex;
-            }
+        function setColor(el, color, type) {
+            const row = document.getElementById('color-row-' + type);
+            row.querySelectorAll('.color-circle, .custom-color-wrapper').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
         }
 
         function openColorModal(type) {
-            currentColorType = type;
-            document.getElementById('native-color-picker').value = selectedColor;
-            document.getElementById('modal-preview').style.backgroundColor = selectedColor;
-            document.querySelectorAll('.grid-color').forEach(el => el.classList.remove('active'));
+            currentColorTarget = type;
             document.getElementById('color-modal').classList.add('active');
         }
-        function closeColorModal() { document.getElementById('color-modal').classList.remove('active'); }
         
-        function pickGridColor(color, element) {
-            selectedColor = color; document.getElementById('modal-preview').style.backgroundColor = color;
-            if (element) { document.querySelectorAll('.grid-color').forEach(el => el.classList.remove('active')); element.classList.add('active'); }
-            else { document.querySelectorAll('.grid-color').forEach(el => el.classList.remove('active')); }
+        let currentColorTarget = 'sub';
+        let selectedColor = '#A855F7';
+        
+        function pickGridColor(color, el) {
+            selectedColor = color;
+            document.getElementById('modal-preview').style.background = color;
         }
         
         function confirmColor() {
-            const wrapper = document.getElementById('custom-color-btn-' + currentColorType);
-            const parent = wrapper.parentElement;
-            parent.querySelectorAll('.color-circle').forEach(el => el.classList.remove('active'));
-            wrapper.classList.add('active'); wrapper.style.background = selectedColor;
-            if (currentColorType === 'sub') {
-                document.getElementById('preview-text').style.color = selectedColor; document.getElementById('inline-sub-text').style.color = selectedColor;
-            } else {
-                document.getElementById('preview-title').style.color = selectedColor; document.getElementById('inline-title-text').style.color = selectedColor;
-            }
+            const row = document.getElementById('color-row-' + currentColorTarget);
+            row.querySelectorAll('.color-circle, .custom-color-wrapper').forEach(c => c.classList.remove('active'));
+            document.getElementById('custom-color-btn-' + currentColorTarget).classList.add('active');
             closeColorModal();
         }
+        
+        function closeColorModal() { document.getElementById('color-modal').classList.remove('active'); }
 
-        function toggleCheckbox(row) {
-            const cb = row.querySelector('.custom-checkbox');
+        function setTextSize(el, size, type) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function setSubPosition(el, pos) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function setTitlePosition(el, pos) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function moveTextSlider(val, type) {
+            const text = type === 'sub' ? document.getElementById('preview-text') : document.getElementById('preview-title');
+            text.style.top = val + '%';
+        }
+
+        function setTextAlign(el, align, type) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            const text = type === 'sub' ? document.getElementById('preview-text') : document.getElementById('preview-title');
+            text.style.textAlign = align;
+        }
+
+        function selectPill(el) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.pill-btn, .copy-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function toggleCheckbox(el) {
+            const cb = el.querySelector('.custom-checkbox');
             cb.classList.toggle('checked');
         }
 
+        function selectGalleryItem(el, id) {
+            document.querySelectorAll('.gallery-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+        }
+
         let isPlaying = false;
-        let playInterval;
-        let currentFrameOffset = 0;
-        let leftPosition = 20;
-        let rightPosition = 80;
-
         function togglePlay() {
+            isPlaying = !isPlaying;
             const playhead = document.getElementById('playhead');
-            const btnPlay = document.getElementById('btn-play');
             if (isPlaying) {
-                isPlaying = false; clearInterval(playInterval);
-                btnPlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Слушать';
-            } else {
-                isPlaying = true;
-                btnPlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Пауза';
+                document.getElementById('btn-play').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Пауза';
                 playhead.style.display = 'block';
-                let currentLeft = parseFloat(playhead.style.left) || leftPosition;
-                if (currentLeft >= rightPosition) currentLeft = leftPosition;
-                playInterval = setInterval(() => {
-                    currentLeft += 0.5;
-                    if (currentLeft >= rightPosition) {
-                        currentLeft = rightPosition; clearInterval(playInterval); isPlaying = false;
-                        btnPlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Слушать';
-                    }
-                    playhead.style.left = currentLeft + '%';
-                }, 20);
+                playhead.style.left = '40%';
+            } else {
+                document.getElementById('btn-play').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Слушать';
+                playhead.style.display = 'none';
             }
         }
 
-        function adjustFrames(direction) {
-            currentFrameOffset += direction; if (currentFrameOffset > 5) currentFrameOffset = 5; if (currentFrameOffset < -5) currentFrameOffset = -5;
-            document.getElementById('frame-display').innerText = currentFrameOffset + ' кадров';
-            const leftHandle = document.getElementById('handle-left'); const rightHandle = document.getElementById('handle-right');
-            const shift = currentFrameOffset * 0.5;
-            leftPosition = 20 - shift; rightPosition = 80 + shift;
-            leftHandle.style.left = leftPosition + '%'; rightHandle.style.right = (100 - rightPosition) + '%';
-        }
-
-        const leftHandle = document.getElementById('handle-left');
-        const rightHandle = document.getElementById('handle-right');
-        
-        if(leftHandle && rightHandle) {
-            function makeDraggable(handle, isLeft) {
-                handle.onmousedown = function(e) {
-                    e.preventDefault(); const timelineRect = document.getElementById('audio-timeline').getBoundingClientRect();
-                    function onMouseMove(e) {
-                        let newX = ((e.clientX - timelineRect.left) / timelineRect.width) * 100;
-                        if (isLeft) {
-                            if (newX < 5) newX = 5; if (newX > rightPosition - 10) newX = rightPosition - 10;
-                            handle.style.left = newX + '%'; leftPosition = newX;
-                        } else {
-                            if (newX > 95) newX = 95; if (newX < leftPosition + 10) newX = leftPosition + 10;
-                            handle.style.right = (100 - newX) + '%'; rightPosition = newX;
-                        }
-                    }
-                    function onMouseUp() { document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); }
-                    document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp);
-                };
-            }
-            makeDraggable(leftHandle, true); makeDraggable(rightHandle, false);
+        let currentFrames = 0;
+        function adjustFrames(change) {
+            currentFrames += change;
+            document.getElementById('frame-display').innerText = currentFrames + ' кадров';
         }
 
         function autoCutSilence() {
             const btn = document.getElementById('btn-auto-cut');
-            const timeline = document.getElementById('audio-timeline');
-            const infoTip = document.getElementById('audio-info-tip');
-            if (btn.classList.contains('success')) return;
-            btn.innerHTML = '<div class="spinner" style="display: block;"></div> Анализ звука...'; btn.style.borderColor = 'transparent'; btn.style.color = '#8E8E93';
+            btn.innerHTML = '⏳ Убираем тишину...';
             setTimeout(() => {
-                timeline.classList.add('auto-cut-active');
-                btn.classList.add('success'); btn.innerHTML = '✅ Тишина удалена (сэкономлено 4.2 сек)'; btn.style.borderColor = '#34C759'; btn.style.color = '#34C759';
-                infoTip.innerHTML = '<span style="color: #34C759; font-weight: bold;">Готово!</span> ИИ удалил все паузы и слова-паразиты. Вы можете прослушать результат.';
-                leftPosition = 10; rightPosition = 90;
-                if(leftHandle && rightHandle) { leftHandle.style.left = '10%'; rightHandle.style.right = '10%'; }
+                btn.innerHTML = '✅ Тишина убрана!';
+                btn.classList.add('success');
+                document.getElementById('audio-timeline').classList.add('auto-cut-active');
             }, 1500);
         }
 
-        function openRefModal() { document.getElementById('ref-modal').classList.add('active'); }
-        function closeRefModal(e) { if(e && e.target !== e.currentTarget) return; document.getElementById('ref-modal').classList.remove('active'); }
         function copyRefLink() {
-            navigator.clipboard.writeText(referralLink).then(() => {
-                const toast = document.getElementById('toast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2000);
-                tg.HapticFeedback.notificationOccurred('success');
-            });
+            navigator.clipboard.writeText(referralLink);
+            showToast('Ссылка скопирована!');
         }
+
         function shareRefLink() {
-            const text = "Присоединяйся к ROBELEN! Твой первый ролик бесплатно:";
-            tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`);
+            tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=Попробуй%20Robelen!`);
+        }
+
+        function openRefModal() { document.getElementById('ref-modal').classList.add('active'); }
+        function closeRefModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('ref-modal').classList.remove('active');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
         }
     </script>
 </body>

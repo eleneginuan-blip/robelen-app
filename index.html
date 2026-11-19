@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Robelen AI Studio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;700&family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Caveat:wght@700&family=Cinzel:wght@700&family=Comfortaa:wght@400;700&family=Cormorant+Garamond:wght@400;700&family=Dancing+Script:wght@700&family=Golos+Text:wght@700;900&family=Great+Vibes&family=Inter:wght@400;500;600;700;800;900&family=Jost:wght@400;700&family=Lobster&family=Lora:wght@700&family=Manrope:wght@700;800&family=Marck+Script&family=Merriweather:wght@400;700&family=Montserrat:wght@700;800;900&family=Old+Standard+TT:wght@400;700&family=Oswald:wght@700&family=Pacifico&family=Playfair+Display:wght@700&family=Press+Start+2P&family=Raleway:wght@400;700&family=Roboto+Condensed:wght@700&family=Rubik+Glitch&family=Rubik+Mono+One&family=Rubik:wght@700&family=Teko:wght@700&family=Unbounded:wght@400;700&family=Yanone+Kaffeesatz:wght@400;700&family=Yeseva+One&display=swap" rel="stylesheet">
+    
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        /* ================= ПЕРЕМЕННЫЕ ТЕМ ================= */
+        :root {
+            --logo-gradient: linear-gradient(90deg, #FF6B6B 0%, #FF3385 25%, #D628FF 50%, #8A2BE2 75%, #00BFFF 100%);
+            --purple-text: #A855F7; 
+            --bg-body: #FAFAFC;
+            --bg-card: #FFFFFF;
+            --bg-input: #F8F8FA;
+            --text-main: #1C1C1E;
+            --text-muted: #8E8E93;
+            --border-color: #E5E5EA;
+            --border-light: #F2F2F7;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --bg-gradient: radial-gradient(circle at 10% 10%, rgba(255, 182, 193, 0.4) 0%, transparent 40%), radial-gradient(circle at 90% 20%, rgba(255, 218, 185, 0.5) 0%, transparent 40%), radial-gradient(circle at 20% 80%, rgba(173, 216, 230, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 90%, rgba(221, 160, 221, 0.4) 0%, transparent 40%), linear-gradient(135deg, #FFF0F5 0%, #F0F8FF 50%, #FFF5EE 100%);
+        }
+
+        body.dark-theme {
+            --bg-body: #0e1015;
+            --bg-card: #1C1C1E;
+            --bg-input: #2C2C2E;
+            --text-main: #FFFFFF;
+            --text-muted: #8A8D9B;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-light: rgba(255, 255, 255, 0.05);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --bg-gradient: radial-gradient(circle at top left, #1c1f2b, #0e1015);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+        body, .app-container, button, input, textarea { font-family: 'Inter', sans-serif; }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .app-container {
+            width: 100%; max-width: 400px; height: 850px; max-height: 95vh;
+            background: var(--bg-body); position: relative; display: flex; flex-direction: column;
+            border-radius: 45px; border: 8px solid var(--bg-card);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        body.dark-theme .app-container { border-color: #1C1C1E; }
+
+        .main-content::-webkit-scrollbar { display: none; }
+        .main-content { -ms-overflow-style: none; scrollbar-width: none; padding-bottom: 160px; overflow-y: auto; flex: 1; position: relative; z-index: 1; }
+
+        .main-screen { display: none; animation: fadeIn 0.3s ease; }
+        .main-screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- ШАПКА --- */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 25px 20px 15px 20px; }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-card); }
+        .logo-title { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; background: var(--logo-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-sub { font-size: 10px; color: var(--text-muted); font-weight: 500; margin-top: -2px; }
+        .badge { background: var(--bg-card); padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; box-shadow: var(--shadow-soft); color: var(--purple-text); }
+
+        /* --- ЗАГОЛОВОК --- */
+        .title-area { padding: 10px 20px 15px 20px; text-align: center; }
+        .title-area h1 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+        .title-area p { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+        /* --- ПРЕВЬЮ ВИДЕО (МАКЕТ) --- */
+        .preview-wrap { display: flex; justify-content: center; margin-bottom: 20px; transition: 0.3s; }
+        .preview-box { 
+            width: 170px; height: 300px; /* 9:16 default */
+            background: linear-gradient(180deg, #2C2C2E 0%, #1C1C1E 100%); border-radius: 20px; position: relative; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            border: 3px solid var(--bg-card); overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .preview-badge { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.2); color: #fff; font-size: 10px; padding: 4px 10px; border-radius: 12px; font-weight: 600; z-index: 3; }
+        
+        .preview-title { position: absolute; left: 10px; right: 10px; top: 35px; text-align: center; color: #FFFFFF; font-size: 18px; font-weight: 800; line-height: 1.2; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.5); word-wrap: break-word; transition: 0.3s; }
+        .preview-text { position: absolute; left: 10px; right: 10px; top: 60%; transform: translateY(-50%); color: #FFD60A; font-size: 16px; font-weight: 800; text-align: center; text-transform: uppercase; line-height: 1.3; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 2; word-wrap: break-word; transition: 0.3s; }
+        .preview-graphic { position: absolute; bottom: 15px; left: 10%; width: 80%; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); border-radius: 10px; padding: 6px; text-align: center; color: #fff; font-size: 10px; font-weight: 600; display: none; border: 1px solid rgba(255,255,255,0.3); z-index: 1; }
+
+        /* --- ВЕРХНИЕ ТАБЫ --- */
+        .tabs-scroll { padding: 0 10px 15px 10px; display: flex; justify-content: space-between; gap: 2px; }
+        .tab { padding: 8px; border-radius: 20px; font-size: 11px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: 0.3s ease; flex-shrink: 1; text-align: center; }
+        .tab.active { background: var(--logo-gradient); color: #fff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2); }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+
+        /* ================= ЭКРАН: МОИ РОЛИКИ ================= */
+        .reels-container { padding: 0 20px; }
+        .reels-title { font-size: 26px; font-weight: 800; margin-bottom: 10px; margin-top: 10px; }
+        .reels-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 25px; font-weight: 500; }
+        .empty-state { background: var(--bg-card); border-radius: 24px; padding: 40px 25px; text-align: center; color: var(--text-muted); font-size: 15px; line-height: 1.5; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
+
+        /* ================= ЭКРАН: ПРОФИЛЬ ================= */
+        .profile-container { padding: 0 20px; }
+        .top-cards { display: flex; gap: 12px; margin-bottom: 25px; }
+        .top-card { flex: 1; background: var(--bg-card); border-radius: 24px; padding: 20px 15px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
+        .top-card-header { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 15px; }
+        .top-card-circle { width: 45px; height: 45px; border: 2px solid var(--purple-text); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 18px; font-weight: 800; color: var(--purple-text); margin-bottom: 15px; }
+        .top-card-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+        .top-card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 15px; }
+        .top-card-btn { width: 100%; padding: 10px; border-radius: 12px; border: none; background: rgba(168, 85, 247, 0.1); color: var(--purple-text); font-weight: 700; font-size: 13px; cursor: pointer; }
+        body.dark-theme .top-card-btn { background: rgba(212, 184, 255, 0.15); color: #d4b8ff; }
+
+        .section-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 12px; margin-top: 25px; }
+
+        .earn-card { background: var(--bg-card); border-radius: 24px; padding: 20px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); cursor: pointer; transition: transform 0.2s; }
+        .earn-card:active { transform: scale(0.98); }
+        .earn-row { display: flex; justify-content: space-between; align-items: center; }
+        .earn-info h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+        .earn-info p { font-size: 12px; color: var(--text-muted); line-height: 1.4; max-width: 200px; }
+        .earn-actions { display: flex; gap: 10px; }
+        
+        .icon-btn { width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-input); display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--text-muted); }
+        .icon-btn:active { background: var(--border-color); }
+        .text-btn { padding: 0 15px; height: 38px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-weight: 700; font-size: 13px; cursor: pointer; }
+        .text-btn:active { background: var(--border-color); }
+
+        .toggle-group { display: flex; background: var(--bg-input); border-radius: 16px; padding: 4px; margin-bottom: 20px; }
+        .toggle-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; background: transparent; color: var(--text-muted); font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; }
+        .toggle-btn.active { background: var(--bg-card); color: var(--purple-text); box-shadow: var(--shadow-soft); }
+
+        .package-list { display: none; flex-direction: column; gap: 10px; }
+        .package-list.active { display: flex; }
+        
+        .package-item { background: var(--bg-card); border-radius: 20px; padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
+        .pkg-left h4 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+        .pkg-left p { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+        .pkg-right { text-align: right; }
+        .pkg-price { font-size: 18px; font-weight: 800; }
+        .pkg-discount { font-size: 12px; color: #34C759; margin-top: 4px; font-weight: 700; }
+
+        .settings-box { background: var(--bg-card); border-radius: 24px; overflow: hidden; margin-top: 15px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
+        .settings-header { padding: 18px 20px; font-size: 16px; font-weight: 800; }
+        .chips-row { display: flex; gap: 10px; padding: 0 20px 20px 20px; flex-wrap: wrap; }
+        .chip { padding: 10px 18px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-size: 13px; font-weight: 600; cursor: pointer; }
+        .chip.active { border-color: var(--purple-text); color: var(--purple-text); background: rgba(168, 85, 247, 0.1); }
+        body.dark-theme .chip.active { background: rgba(212, 184, 255, 0.15); color: #d4b8ff; }
+
+        .menu-box { background: var(--bg-card); border-radius: 24px; overflow: hidden; margin-top: 15px; margin-bottom: 30px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
+        .menu-row { padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); cursor: pointer; }
+        .menu-row:last-child { border-bottom: none; }
+        .menu-row-left h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .menu-row-left p { font-size: 12px; color: var(--text-muted); }
+        .menu-row-right { color: var(--text-muted); font-size: 14px; font-weight: 600; }
+
+        /* ================= ВЕРСИИ (ПЕРЕЗАЛИВ) ================= */
+        #versions-view { display: block; padding: 0 20px; }
+        .versions-banner { background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
+        .versions-banner-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .versions-icon { width: 40px; height: 40px; background: var(--bg-input); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--purple-text); }
+        .versions-title { font-size: 18px; font-weight: 800; }
+        .versions-badge { margin-left: auto; background: var(--bg-input); padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; color: var(--purple-text); border: 1px solid var(--border-color); }
+        .versions-desc { font-size: 13px; color: var(--text-muted); }
+
+        .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; cursor: pointer; }
+        .custom-checkbox { width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; background: var(--bg-card); }
+        .custom-checkbox.checked { background: var(--logo-gradient); border-color: transparent; }
+        .custom-checkbox svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; display: none; }
+        .custom-checkbox.checked svg { display: block; }
+        .checkbox-label { font-size: 14px; font-weight: 600; }
+        .dynamic-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+
+        .copies-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
+        .copies-grid { display: flex; gap: 10px; margin-bottom: 10px; }
+        .copy-btn { flex: 1; background: var(--bg-input); border: 2px solid transparent; padding: 15px; border-radius: 16px; font-size: 18px; font-weight: 800; color: var(--text-main); cursor: pointer; }
+        .copy-btn.active { background: var(--bg-card); border-color: var(--purple-text); color: var(--purple-text); }
+        .copies-subtext { font-size: 12px; color: var(--text-muted); margin-bottom: 25px; }
+
+        .versions-gallery { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; margin-bottom: 15px; }
+        .versions-gallery::-webkit-scrollbar { display: none; }
+        .gallery-item { flex-shrink: 0; width: 100px; cursor: pointer; position: relative; }
+        .gallery-thumb { width: 100%; height: 160px; background-color: #1C1C1E; border-radius: 12px; border: 3px solid transparent; transition: 0.2s; background-size: cover; background-position: center; position: relative; }
+        .gallery-item.active .gallery-thumb { border-color: var(--purple-text); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3); }
+        .gallery-check { position: absolute; top: 8px; right: 8px; width: 20px; height: 20px; border-radius: 50%; background: #fff; border: 2px solid #E5E5EA; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+        .gallery-check svg { width: 12px; height: 12px; stroke: var(--purple-text); stroke-width: 3; fill: none; display: none; }
+        .gallery-item.active .gallery-check { background: var(--purple-text); border-color: var(--purple-text); }
+        .gallery-item.active .gallery-check svg { display: block; stroke: #fff; }
+        .gallery-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-align: center; margin-top: 8px; }
+        .gallery-item.active .gallery-label { color: var(--text-main); }
+
+        .versions-btn { width: 100%; background: var(--bg-card); color: var(--text-main); padding: 20px; border-radius: 20px; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
+        .versions-btn-icon { width: 44px; height: 44px; background: var(--logo-gradient); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; }
+
+        /* --- ОСТАЛЬНЫЕ ВКЛАДКИ (МОНТАЖ) --- */
+        .ready-arc-container { position: relative; padding: 30px 20px; display: flex; justify-content: center; }
+        .ready-arc { display: flex; justify-content: space-between; width: 100%; max-width: 280px; position: relative; }
+        .ready-arc::before { content: ''; position: absolute; top: 30px; left: 10px; right: 10px; height: 3px; background: var(--border-color); z-index: 1; }
+        .ready-item { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; z-index: 2; width: 80px; }
+        .ready-circle { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; font-size: 20px; font-weight: 600; color: var(--text-muted); background: var(--bg-card); }
+        .ready-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-align: center; }
+        .ready-item.active .ready-circle { background: var(--logo-gradient); color: #fff; border-color: transparent; }
+        .ready-item.active .ready-label { color: var(--purple-text); }
+        .manual-setup-text { text-align: center; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-top: 30px; margin-bottom: 40px; }
+        .manual-setup-text.custom-mode { color: var(--purple-text); text-decoration: underline; cursor: pointer; }
+
+        .slider-section { position: relative; padding: 0 20px; margin-bottom: 10px; }
+        .style-name { text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 20px; }
+        .dot-slider { display: flex; justify-content: space-between; position: relative; align-items: center; margin-bottom: 20px; padding: 0 10px; }
+        .dot-slider::before { content: ''; position: absolute; top: 50%; left: 20px; right: 20px; height: 2px; background: var(--border-color); z-index: 1; transform: translateY(-50%); }
+        .s-dot { position: relative; z-index: 2; width: 14px; height: 14px; background: var(--border-color); border-radius: 50%; cursor: pointer; border: 2px solid var(--bg-body); }
+        .s-dot.active { width: 22px; height: 22px; background: var(--logo-gradient); box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15); border: none; }
+        .dot-label { position: absolute; top: 26px; left: 50%; transform: translateX(-50%); font-size: 11px; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+        .s-dot.active .dot-label { color: var(--purple-text); font-weight: 800; }
+
+        .settings-card { background: var(--bg-card); border-radius: 30px; margin: 15px 20px 0 20px; padding: 25px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); }
+        .card-section { margin-bottom: 20px; }
+        .card-section:last-child { margin-bottom: 0; }
+        .section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;}
+        .sub-text { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-weight: 500;}
+
+        .help-icon { display: inline-flex; justify-content: center; align-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-input); color: var(--text-muted); font-size: 10px; font-weight: 800; cursor: pointer; }
+
+        .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+        .pill-btn { background: var(--bg-input); border: 1px solid transparent; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--text-main); cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .pill-btn.active { background: var(--bg-card); color: var(--purple-text); border-color: var(--purple-text); box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.15); }
+
+        .inline-anim-preview { margin-top: 15px; background: var(--bg-input); border: 2px dashed var(--purple-text); border-radius: 16px; padding: 20px; text-align: center; display: flex; justify-content: center; align-items: center; min-height: 80px; overflow: hidden; position: relative; }
+        .inline-anim-preview span { font-weight: 800; color: var(--text-main); font-size: 16px; }
+
+        .font-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 5px 15px 5px; }
+        .font-scroll::-webkit-scrollbar { display: none; }
+        
+        .font-btn { 
+            position: relative; background: var(--bg-input); border: 2px solid transparent; border-radius: 16px; min-width: 85px; height: 60px; display: flex; justify-content: center; align-items: center; cursor: pointer; padding: 0 10px; flex-shrink: 0; text-align: center; color: var(--text-main); 
+        }
+        .font-btn.active { background: var(--bg-card); border-color: var(--purple-text); color: var(--purple-text); box-shadow: 0 4px 10px rgba(168, 85, 247, 0.15); }
+        .font-btn.recommended::after { content: '✨'; position: absolute; top: -6px; right: -6px; font-size: 14px; background: var(--bg-card); border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.15); padding: 2px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        /* Шрифты */
+        .f-inter { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 800; }
+        .f-montserrat { font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; }
+        .f-bebas { font-family: 'Bebas Neue', sans-serif; font-size: 22px; }
+        .f-golos { font-family: 'Golos Text', sans-serif; font-size: 16px; font-weight: 700; }
+        .f-rubik { font-family: 'Rubik', sans-serif; font-size: 16px; font-weight: 700; }
+        .f-oswald { font-family: 'Oswald', sans-serif; font-size: 16px; }
+        .f-playfair { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; }
+        .f-caveat { font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700; }
+        .f-unbounded { font-family: 'Unbounded', sans-serif; font-size: 14px; font-weight: 700; }
+        .f-comfortaa { font-family: 'Comfortaa', cursive; font-size: 14px; font-weight: 700; }
+        .f-jost { font-family: 'Jost', sans-serif; font-size: 16px; font-weight: 700; }
+        .f-marck { font-family: 'Marck Script', cursive; font-size: 18px; }
+        .f-lobster { font-family: 'Lobster', cursive; font-size: 16px; }
+        .f-press-start { font-family: 'Press Start 2P', cursive; font-size: 10px; } 
+        .f-rubik-glitch { font-family: 'Rubik Glitch', cursive; font-size: 14px; }
+        .f-cormorant { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; }
+        .f-merriweather { font-family: 'Merriweather', serif; font-size: 14px; font-weight: 700; }
+        .f-great-vibes { font-family: 'Great Vibes', cursive; font-size: 22px; }
+        .f-yeseva { font-family: 'Yeseva One', serif; font-size: 15px; }
+        .f-alegreya { font-family: 'Alegreya', serif; font-size: 16px; }
+        .f-old-standard { font-family: 'Old Standard TT', serif; font-size: 16px; }
+        .f-archivo { font-family: 'Archivo Black', sans-serif; font-size: 14px; letter-spacing: -0.5px; }
+        .f-teko { font-family: 'Teko', sans-serif; font-size: 22px; letter-spacing: 1px; }
+        .f-manrope { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 800; }
+        .f-lora { font-family: 'Lora', serif; font-size: 15px; font-weight: 700; }
+        .f-cinzel { font-family: 'Cinzel', serif; font-size: 15px; font-weight: 700; }
+        .f-dancing { font-family: 'Dancing Script', cursive; font-size: 20px; font-weight: 700; }
+
+        .color-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .color-circle { width: 36px; height: 36px; border-radius: 50%; border: 3px solid var(--bg-card); box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .color-circle::after { content: '✓'; color: transparent; font-weight: 900; font-size: 18px; }
+        .color-circle.active { transform: scale(1.15); border-color: var(--purple-text); }
+        .color-circle.active::after { color: #1C1C1E; }
+        
+        .custom-color-wrapper { position: relative; background: conic-gradient(from 0deg, red, yellow, lime, cyan, blue, magenta, red); border-radius: 50%; width: 36px; height: 36px; border: 3px solid var(--bg-card); box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .custom-color-wrapper::after { content: '✓'; color: transparent; font-weight: 900; font-size: 18px; }
+        .custom-color-wrapper.active { transform: scale(1.15); border-color: var(--purple-text); }
+        .custom-color-wrapper.active::after { color: #ffffff; }
+
+        .divider { height: 1px; background: var(--border-light); margin: 20px 0; }
+        
+        .range-container { padding: 0; margin-top: 10px; }
+        .range-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--bg-card); border: 3px solid var(--purple-text); cursor: pointer; margin-top: -7px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: var(--border-color); border-radius: 2px; }
+
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-label { font-size: 14px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .switch { position: relative; display: inline-block; width: 48px; height: 28px; flex-shrink: 0; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border-color); transition: .3s; border-radius: 30px; }
+        .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: .3s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--purple-text); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        /* --- АУДИОРЕДАКТОР --- */
+        .audio-editor { background: #1C1C1E; border-radius: 16px; padding: 15px; margin-top: 10px; position: relative; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
+        .audio-timeline { height: 60px; background: #2C2C2E; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.05) 4px, rgba(255,255,255,0.05) 8px); }
+        .waveform { width: 100%; height: 40px; background: repeating-linear-gradient(90deg, #A855F7, #A855F7 2px, transparent 2px, transparent 4px, #D8B4E2 4px, #D8B4E2 5px, transparent 5px, transparent 8px); opacity: 0.7; mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q5,5 10,20 T20,20 T30,10 T40,25 T50,15 T60,30 T70,10 T80,20 T90,5 T100,20" stroke="black" fill="none" stroke-width="2"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q5,5 10,20 T20,20 T30,10 T40,25 T50,15 T60,30 T70,10 T80,20 T90,5 T100,20" stroke="black" fill="none" stroke-width="2"/></svg>'); mask-size: 100% 100%; -webkit-mask-size: 100% 100%; transition: all 0.5s ease; }
+        .audio-timeline.auto-cut-active .waveform { mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q2,10 5,20 T10,20 M15,20 Q20,5 25,20 T30,25 M35,20 Q40,15 45,20 T50,20 M60,20 Q65,10 70,20 T75,20 M85,20 Q90,15 95,20 T100,20" stroke="black" fill="none" stroke-width="2"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q2,10 5,20 T10,20 M15,20 Q20,5 25,20 T30,25 M35,20 Q40,15 45,20 T50,20 M60,20 Q65,10 70,20 T75,20 M85,20 Q90,15 95,20 T100,20" stroke="black" fill="none" stroke-width="2"/></svg>'); background: repeating-linear-gradient(90deg, #34C759, #34C759 2px, transparent 2px, transparent 4px, #A855F7 4px, #A855F7 5px, transparent 5px, transparent 8px); opacity: 0.9; }
+        .trim-handle { position: absolute; top: 0; bottom: 0; width: 14px; background: #A855F7; border-radius: 4px; cursor: ew-resize; z-index: 5; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 8px rgba(168, 85, 247, 0.8); }
+        .trim-handle::after { content: ''; width: 2px; height: 20px; background: #fff; border-radius: 1px; }
+        .trim-handle.left { left: 20%; }
+        .trim-handle.right { right: 20%; }
+        .playhead { position: absolute; top: 0; bottom: 0; width: 2px; background: #fff; z-index: 6; left: 20%; display: none; }
+        .playhead::before { content: ''; position: absolute; top: -6px; left: -4px; width: 10px; height: 10px; background: #fff; border-radius: 50%; }
+        .audio-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .btn-play { background: var(--purple-text); color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .frame-adjust { display: flex; align-items: center; gap: 10px; color: #fff; font-size: 12px; font-weight: 600; }
+        .btn-frame { background: #3A3A3C; color: #fff; border: none; width: 28px; height: 28px; border-radius: 8px; font-size: 18px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .info-tip { font-size: 11px; color: #8E8E93; margin-top: 15px; text-align: center; line-height: 1.4; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; }
+        .btn-auto-cut { width: 100%; margin-top: 15px; background: rgba(168, 85, 247, 0.15); border: 1px dashed #A855F7; color: #fff; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .btn-auto-cut.success { background: rgba(52, 199, 89, 0.15); border-color: #34C759; color: #34C759; cursor: default; }
+        .spinner { display: none; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- НОВЫЕ СТИЛИ ДЛЯ МУЗЫКИ И МЕМОВ --- */
+        .music-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-input); border-radius: 12px; margin-bottom: 8px; cursor: pointer; border: 1px solid transparent; transition: 0.2s; }
+        .music-item:hover { border-color: var(--purple-text); }
+        .music-item.active { border-color: var(--purple-text); background: var(--bg-card); box-shadow: var(--shadow-soft); }
+        .music-cover { width: 40px; height: 40px; border-radius: 8px; background: var(--logo-gradient); display: flex; justify-content: center; align-items: center; color: #fff; font-size: 16px; }
+        .music-details { flex: 1; }
+        .music-name { font-size: 14px; font-weight: 700; color: var(--text-main); }
+        .music-artist { font-size: 11px; color: var(--text-muted); }
+        .music-play { color: var(--purple-text); font-size: 18px; user-select: none; }
+        
+        .ai-suggest-btn { width: 100%; background: rgba(168, 85, 247, 0.1); color: var(--purple-text); border: 1px dashed var(--purple-text); padding: 12px; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px; transition: 0.2s; }
+        .ai-suggest-btn:active { background: rgba(168, 85, 247, 0.2); }
+
+        .meme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .meme-card { background: var(--bg-card); border: 2px solid var(--border-light); border-radius: 16px; overflow: hidden; cursor: pointer; position: relative; transition: 0.2s; }
+        .meme-card.active { border-color: var(--purple-text); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2); }
+        .meme-img { width: 100%; height: 90px; background: #e0e0e0; object-fit: cover; display: block; }
+        .meme-title { padding: 8px; font-size: 11px; font-weight: 700; text-align: center; }
+        .meme-check { position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; border-radius: 50%; background: #fff; display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.2s; }
+        .meme-card.active .meme-check { opacity: 1; background: var(--purple-text); color: #fff; }
+
+        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
+        .bottom-panel { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(0deg, var(--bg-body) 85%, transparent 100%); padding: 15px 20px 10px 20px; display: flex; flex-direction: column; gap: 15px; z-index: 10; }
+        .main-cta { background: var(--logo-gradient); border-radius: 20px; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; cursor: pointer; }
+        .cta-title { color: #fff; font-size: 16px; font-weight: 800; }
+        .cta-sub { color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 500; }
+        .upload-circle { width: 44px; height: 44px; border-radius: 50%; background: #ffffff; display: flex; justify-content: center; align-items: center; color: var(--purple-text); }
+        
+        .bottom-nav { display: flex; justify-content: space-around; padding: 5px 0; background: var(--bg-card); border-radius: 20px; box-shadow: var(--shadow-soft); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; padding: 8px 15px; border-radius: 15px; transition: 0.2s;}
+        .nav-item.active { color: var(--purple-text); background: rgba(168, 85, 247, 0.1); }
+        body.dark-theme .nav-item.active { background: rgba(212, 184, 255, 0.15); }
+        .nav-icon { font-size: 18px; }
+        .nav-label { font-size: 10px; font-weight: 600; }
+
+        /* Модалки */
+        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 100; }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .ref-modal { background: var(--bg-card); border-radius: 24px; padding: 25px; width: 90%; max-width: 340px; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 15px; max-height: 80vh; overflow-y: auto; }
+        .modal-overlay.active .ref-modal { transform: translateY(0); }
+        .ref-modal-title { font-size: 18px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
+        .ref-modal-text { font-size: 13px; color: var(--text-main); line-height: 1.5; }
+        .ref-modal-list { margin-top: 10px; padding-left: 15px; font-size: 13px; color: var(--text-main); line-height: 1.5; }
+        .btn-close-modal { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-color); padding: 14px; border-radius: 16px; font-weight: 700; font-size: 14px; cursor: pointer; width: 100%; margin-top: 10px; }
+        .toast { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px); background: #34C759; color: #fff; padding: 12px 24px; border-radius: 20px; font-weight: 600; font-size: 14px; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 200; box-shadow: 0 10px 20px rgba(52, 199, 89, 0.3); }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Анимации */
+        @keyframes anim-spring { 0% { transform: scale(0.5); opacity: 0; } 50% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes anim-flash { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0.2; } }
+        @keyframes anim-typewriter { from { width: 0; } to { width: 100%; } }
+        @keyframes anim-soft { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes anim-curtain { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+        @keyframes anim-zoom { from { transform: scale(0.5); } to { transform: scale(1); } }
+
+        .anim-spring { animation: anim-spring 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .anim-flash { animation: anim-flash 1s ease-in-out; }
+        .anim-typewriter { overflow: hidden; white-space: nowrap; animation: anim-typewriter 1s steps(30) forwards; }
+        .anim-soft { animation: anim-soft 0.8s ease-out; }
+        .anim-curtain { animation: anim-curtain 0.8s ease-out; }
+        .anim-zoom { animation: anim-zoom 0.4s ease-out; }
+        .word-span { display: inline-block; opacity: 0; animation: anim-spring 0.4s ease-out forwards; }
+
+        /* Новые блоки */
+        .file-upload-list { margin-top: 10px; font-size: 12px; color: var(--purple-text); font-weight: 600; display: flex; flex-direction: column; gap: 5px;}
+        .meme-timeline { display: none; background: var(--bg-input); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--purple-text); }
+        .meme-timeline-item { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 13px; }
+        .meme-timeline-time { background: var(--purple-text); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        
+        <header class="top-bar">
+            <div class="logo-area">
+                <img src="logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+                <div>
+                    <div class="logo-title">ROBELEN</div>
+                    <div class="logo-sub" data-i18n="logo_sub">автомонтаж и перезаливы</div>
+                </div>
+            </div>
+            <div class="badge">💎 0</div>
+        </header>
+
+        <div class="main-content">
+            
+            <!-- ================= ЭКРАН 1: МОНТАЖ ================= -->
+            <div id="screen-montage" class="main-screen active">
+                <div class="title-area" id="main-title-area">
+                    <h1 data-i18n="main_title">Ролик без монтажёра</h1>
+                    <p data-i18n="main_sub">🎁 Первый ролик бесплатно - пришло в чат</p>
+                </div>
+
+                <!-- МАКЕТ ТЕЛЕФОНА (ID для смены формата) -->
+                <div class="preview-wrap" id="main-preview-area">
+                    <div class="preview-box" id="main-preview-box">
+                        <div class="preview-badge">пример</div>
+                        <div class="preview-title" id="preview-title">ЗАГОЛОВОК<br>ДЛЯ РИЛС</div>
+                        <div class="preview-text" id="preview-text">ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ</div>
+                        <div class="preview-graphic" id="preview-graphic">✨ Графика и эффекты</div>
+                    </div>
+                </div>
+
+                <audio id="audio-player" loop></audio>
+
+                <div class="tabs-scroll" id="top-tabs">
+                    <button class="tab active" onclick="switchTab('tab-ready', this)" data-i18n="tab_ready">Готовые</button>
+                    <button class="tab" onclick="switchTab('tab-subs', this)" data-i18n="tab_subs">Субтитры</button>
+                    <button class="tab" onclick="switchTab('tab-title', this)" data-i18n="tab_title">Заголовок</button>
+                    <button class="tab" onclick="switchTab('tab-montage', this)" data-i18n="tab_montage">Монтаж</button>
+                    <button class="tab" onclick="switchTab('tab-materials', this)" data-i18n="tab_mat">Материалы</button>
+                </div>
+
+                <!-- ВКЛАДКА ГОТОВЫЕ -->
+                <div id="tab-ready" class="tab-content active">
+                    <div class="ready-arc-container">
+                        <div class="ready-arc">
+                            <div class="ready-item" onclick="selectReady(this, 'only_subs')">
+                                <div class="ready-circle">Aa</div>
+                                <div class="ready-label" data-i18n="ready_subs">Только<br>субтитры</div>
+                            </div>
+                            <div class="ready-item active" onclick="selectReady(this, 'subs_title')">
+                                <div class="ready-circle">Aa</div>
+                                <div class="ready-label" data-i18n="ready_full">Субтитры и<br>заголовок</div>
+                            </div>
+                            <div class="ready-item" onclick="selectReady(this, 'full')">
+                                <div class="ready-circle">AA</div>
+                                <div class="ready-label" data-i18n="ready_all">Полный<br>монтаж</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="manual-setup-text" id="manual-setup-text" data-i18n="manual_setup">Настроено вручную</div>
+                </div>
+
+                <!-- ВКЛАДКА СУБТИТРЫ -->
+                <div id="tab-subs" class="tab-content">
+                    <div class="slider-section">
+                        <div class="style-name" id="style-name-text">Стиль субтитров: Крупный акцент</div>
+                        <div class="dot-slider">
+                            <div class="s-dot" onclick="selectDot(this, 'Без субтитров', 'sub')"><span class="dot-label">—</span></div>
+                            <div class="s-dot" onclick="selectDot(this, 'Строка', 'sub')"><span class="dot-label">Aa</span></div>
+                            <div class="s-dot active" onclick="selectDot(this, 'Крупный акцент', 'sub')"><span class="dot-label">AA</span></div>
+                            <div class="s-dot" onclick="selectDot(this, 'Две строки', 'sub')"><span class="dot-label">AA</span></div>
+                            <div class="s-dot" onclick="selectDot(this, 'По слову', 'sub')"><span class="dot-label">A</span></div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <div class="card-section">
+                            <div class="section-title" data-i18n="font_text">Шрифт текста</div>
+                            <div class="font-scroll" id="font-scroll-sub">
+                                <button class="font-btn active f-inter" data-font="Inter" onclick="changeFont(this, 'Inter', 'sub')">Inter</button>
+                                <button class="font-btn f-montserrat" data-font="Montserrat" onclick="changeFont(this, 'Montserrat', 'sub')">Montserrat</button>
+                                <button class="font-btn f-bebas" data-font="Bebas Neue" onclick="changeFont(this, 'Bebas Neue', 'sub')">BEBAS</button>
+                                <button class="font-btn f-archivo" data-font="Archivo Black" onclick="changeFont(this, 'Archivo Black', 'sub')">Archivo</button>
+                                <button class="font-btn f-teko" data-font="Teko" onclick="changeFont(this, 'Teko', 'sub')">Teko</button>
+                                <button class="font-btn f-manrope" data-font="Manrope" onclick="changeFont(this, 'Manrope', 'sub')">Manrope</button>
+                                <button class="font-btn f-oswald" data-font="Oswald" onclick="changeFont(this, 'Oswald', 'sub')">Oswald</button>
+                                <button class="font-btn f-golos" data-font="Golos Text" onclick="changeFont(this, 'Golos Text', 'sub')">Golos</button>
+                                <button class="font-btn f-rubik" data-font="Rubik" onclick="changeFont(this, 'Rubik', 'sub')">Rubik</button>
+                                <button class="font-btn f-playfair" data-font="Playfair Display" onclick="changeFont(this, 'Playfair Display', 'sub')">Playfair</button>
+                                <button class="font-btn f-caveat" data-font="Caveat" onclick="changeFont(this, 'Caveat', 'sub')">Caveat</button>
+                                <button class="font-btn f-unbounded" data-font="Unbounded" onclick="changeFont(this, 'Unbounded', 'sub')">Unbounded</button>
+                                <button class="font-btn f-comfortaa" data-font="Comfortaa" onclick="changeFont(this, 'Comfortaa', 'sub')">Comfortaa</button>
+                                <button class="font-btn f-jost" data-font="Jost" onclick="changeFont(this, 'Jost', 'sub')">Jost</button>
+                                <button class="font-btn f-marck" data-font="Marck Script" onclick="changeFont(this, 'Marck Script', 'sub')">Marck</button>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <!-- АНИМАЦИЯ СУБТИТРОВ -->
+                        <div class="card-section">
+                            <div class="section-title">Анимация текста</div>
+                            <div class="pill-group">
+                                <button class="pill-btn" onclick="playSubAnimation(this, 'word')">Слово за словом</button>
+                                <button class="pill-btn" onclick="playSubAnimation(this, 'spring')">Пружинка</button>
+                                <button class="pill-btn" onclick="playSubAnimation(this, 'flash')">Вспышка</button>
+                                <button class="pill-btn" onclick="playSubAnimation(this, 'typewriter')">Печатная машинка</button>
+                            </div>
+                            <div class="inline-anim-preview" id="inline-sub-preview" style="display: none;">
+                                <span id="inline-sub-text">ЭТО МОЙ ЛЮБИМЫЙ МОМЕНТ</span>
+                            </div>
+                        </div>
+                        
+                        <div class="divider"></div>
+                        
+                        <div class="card-section">
+                            <div class="section-title">Цвет шрифта</div>
+                            <div class="color-row" id="color-row-sub">
+                                <div class="color-circle" style="background: #FFFFFF;" onclick="setColor(this, '#FFFFFF', 'sub')"></div>
+                                <div class="color-circle active" style="background: #FFD60A;" onclick="setColor(this, '#FFD60A', 'sub')"></div>
+                                <div class="color-circle" style="background: #FF1493;" onclick="setColor(this, '#FF1493', 'sub')"></div>
+                                <div class="color-circle" style="background: #34C759;" onclick="setColor(this, '#34C759', 'sub')"></div>
+                                <div class="custom-color-wrapper" id="custom-color-btn-sub" onclick="openColorModal('sub')"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="divider"></div>
+                        
+                        <!-- РАЗМЕР И МЕСТО (СУБТИТРЫ) -->
+                        <div class="card-section">
+                            <div class="section-title">Размер и место</div>
+                            
+                            <div class="sub-text">Размер текста</div>
+                            <div class="pill-group" style="margin-bottom: 15px;">
+                                <button class="pill-btn" onclick="setTextSize(this, 'small', 'sub')">Малый</button>
+                                <button class="pill-btn active" onclick="setTextSize(this, 'medium', 'sub')">Средний</button>
+                                <button class="pill-btn" onclick="setTextSize(this, 'large', 'sub')">Крупный</button>
+                            </div>
+
+                            <div class="sub-text">Где субтитры</div>
+                            <div class="pill-group" style="margin-bottom: 10px;">
+                                <button class="pill-btn" onclick="setSubPosition(this, 'bottom')">Снизу</button>
+                                <button class="pill-btn active" onclick="setSubPosition(this, 'center')">Посередине</button>
+                                <button class="pill-btn" onclick="setSubPosition(this, 'top')">Сверху</button>
+                            </div>
+
+                            <div class="range-container" style="margin-bottom: 15px;">
+                                <div class="range-labels"><span>Ниже</span><span>Выше</span></div>
+                                <input type="range" id="sub-slider" min="15" max="85" value="60" oninput="moveTextSlider(this.value, 'sub')">
+                            </div>
+
+                            <div class="sub-text">Выравнивание</div>
+                            <div class="pill-group">
+                                <button class="pill-btn" onclick="setTextAlign(this, 'left', 'sub')">Слева</button>
+                                <button class="pill-btn active" onclick="setTextAlign(this, 'center', 'sub')">По центру</button>
+                                <button class="pill-btn" onclick="setTextAlign(this, 'right', 'sub')">Справа</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ВКЛАДКА ЗАГОЛОВОК -->
+                <div id="tab-title" class="tab-content">
+                    <div class="slider-section">
+                        <div class="style-name" id="style-name-text-title">Заголовок: Две строки</div>
+                        <div class="dot-slider">
+                            <div class="s-dot" onclick="selectDot(this, 'Без заголовка', 'title')"><span class="dot-label">—</span></div>
+                            <div class="s-dot active" onclick="selectDot(this, 'Две строки', 'title')"><span class="dot-label">Aa</span></div>
+                            <div class="s-dot" onclick="selectDot(this, 'Тонкий + жирный', 'title')"><span class="dot-label">Aa</span></div>
+                            <div class="s-dot" onclick="selectDot(this, 'Минимализм', 'title')"><span class="dot-label">Aa</span></div>
+                        </div>
+                    </div>
+                    <div class="settings-card">
+                        <div class="card-section">
+                            <div class="section-title">Шрифт заголовка</div>
+                            <div class="sub-text" id="title-pairing-hint" style="color: var(--purple-text); font-weight: 600; margin-bottom: 8px; display: none;">
+                                ✨ Идеальные сочетания отмечены звездочкой
+                            </div>
+                            <div class="font-scroll" id="font-scroll-title">
+                                <button class="font-btn active f-montserrat" data-font="Montserrat" onclick="changeFont(this, 'Montserrat', 'title')">Montserrat</button>
+                                <button class="font-btn f-playfair" data-font="Playfair Display" onclick="changeFont(this, 'Playfair Display', 'title')">Playfair</button>
+                                <button class="font-btn f-lora" data-font="Lora" onclick="changeFont(this, 'Lora', 'title')">Lora</button>
+                                <button class="font-btn f-cinzel" data-font="Cinzel" onclick="changeFont(this, 'Cinzel', 'title')">Cinzel</button>
+                                <button class="font-btn f-dancing" data-font="Dancing Script" onclick="changeFont(this, 'Dancing Script', 'title')">Dancing</button>
+                                <button class="font-btn f-inter" data-font="Inter" onclick="changeFont(this, 'Inter', 'title')">Inter</button>
+                                <button class="font-btn f-cormorant" data-font="Cormorant Garamond" onclick="changeFont(this, 'Cormorant Garamond', 'title')">Cormorant</button>
+                                <button class="font-btn f-merriweather" data-font="Merriweather" onclick="changeFont(this, 'Merriweather', 'title')">Merriweather</button>
+                                <button class="font-btn f-jost" data-font="Jost" onclick="changeFont(this, 'Jost', 'title')">Jost</button>
+                                <button class="font-btn f-comfortaa" data-font="Comfortaa" onclick="changeFont(this, 'Comfortaa', 'title')">Comfortaa</button>
+                                <button class="font-btn f-great-vibes" data-font="Great Vibes" onclick="changeFont(this, 'Great Vibes', 'title')">Great Vibes</button>
+                                <button class="font-btn f-marck" data-font="Marck Script" onclick="changeFont(this, 'Marck Script', 'title')">Marck</button>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <!-- РАЗМЕР И МЕСТО (ЗАГОЛОВОК) -->
+                        <div class="card-section">
+                            <div class="section-title">Размер и место</div>
+                            
+                            <div class="sub-text">Размер текста</div>
+                            <div class="pill-group" style="margin-bottom: 15px;">
+                                <button class="pill-btn" onclick="setTextSize(this, 'small', 'title')">Малый</button>
+                                <button class="pill-btn active" onclick="setTextSize(this, 'medium', 'title')">Средний</button>
+                                <button class="pill-btn" onclick="setTextSize(this, 'large', 'title')">Крупный</button>
+                            </div>
+
+                            <div class="sub-text">Где заголовок</div>
+                            <div class="pill-group" style="margin-bottom: 10px;">
+                                <button class="pill-btn" onclick="setTitlePosition(this, 'bottom')">Снизу</button>
+                                <button class="pill-btn" onclick="setTitlePosition(this, 'center')">Посередине</button>
+                                <button class="pill-btn active" onclick="setTitlePosition(this, 'top')">Сверху</button>
+                            </div>
+
+                            <div class="range-container" style="margin-bottom: 15px;">
+                                <div class="range-labels"><span>Ниже</span><span>Выше</span></div>
+                                <input type="range" id="title-slider" min="15" max="85" value="15" oninput="moveTextSlider(this.value, 'title')">
+                            </div>
+
+                            <div class="sub-text">Выравнивание</div>
+                            <div class="pill-group">
+                                <button class="pill-btn" onclick="setTextAlign(this, 'left', 'title')">Слева</button>
+                                <button class="pill-btn active" onclick="setTextAlign(this, 'center', 'title')">По центру</button>
+                                <button class="pill-btn" onclick="setTextAlign(this, 'right', 'title')">Справа</button>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+                        
+                        <div class="card-section">
+                            <div class="section-title">Цвет заголовка</div>
+                            <div class="color-row" id="color-row-title">
+                                <div class="color-circle active" style="background: #FFFFFF;" onclick="setColor(this, '#FFFFFF', 'title')"></div>
+                                <div class="color-circle" style="background: #FFD60A;" onclick="setColor(this, '#FFD60A', 'title')"></div>
+                                <div class="color-circle" style="background: #FF1493;" onclick="setColor(this, '#FF1493', 'title')"></div>
+                                <div class="color-circle" style="background: #34C759;" onclick="setColor(this, '#34C759', 'title')"></div>
+                                <div class="custom-color-wrapper" id="custom-color-btn-title" onclick="openColorModal('title')"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="divider"></div>
+
+                        <!-- АНИМАЦИЯ ЗАГОЛОВКА -->
+                        <div class="card-section">
+                            <div class="section-title">Появление заголовка</div>
+                            <div class="pill-group">
+                                <button class="pill-btn" onclick="playTitleAnimation(this, 'soft')">Мягкое появление</button>
+                                <button class="pill-btn" onclick="playTitleAnimation(this, 'curtain')">Шторка строк</button>
+                                <button class="pill-btn" onclick="playTitleAnimation(this, 'typewriter')">Печатная машинка</button>
+                                <button class="pill-btn" onclick="playTitleAnimation(this, 'zoom')">Зум</button>
+                            </div>
+                            <div class="inline-anim-preview" id="inline-title-preview" style="display: none;">
+                                <span id="inline-title-text">ЗАГОЛОВОК ДЛЯ РИЛС</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ВКЛАДКА МОНТАЖ -->
+                <div id="tab-montage" class="tab-content">
+                    <div class="settings-card">
+                        
+                        <div class="section-title" data-i18n="where_upload">Куда выкладываем?</div>
+                        <div class="pill-group" id="format-group" style="margin-bottom: 15px;">
+                            <button class="pill-btn active" onclick="setFormat(this, '9:16')">📱 9:16</button>
+                            <button class="pill-btn" onclick="setFormat(this, '16:9')">💻 16:9</button>
+                            <button class="pill-btn" onclick="setFormat(this, '1:1')">🟥 1:1</button>
+                            <button class="pill-btn" onclick="setFormat(this, '4:5')">📸 4:5</button>
+                            <button class="pill-btn" onclick="setFormat(this, '4:3')">📺 4:3</button>
+                        </div>
+
+                        <div class="divider"></div>
+                        
+                        <!-- БЛОК МУЗЫКИ -->
+                        <div class="section-title" data-i18n="music_search">Музыка</div>
+                        <button class="ai-suggest-btn" onclick="aiSuggestMusic(this)">
+                            ✨ Подобрать музыку под видео (ИИ)
+                        </button>
+
+                        <div class="search-container">
+                            <input type="text" class="search-input" id="music-search-input" placeholder="Найти трек или исполнителя..." oninput="searchMusic(this.value)">
+                            <button class="search-btn" onclick="searchMusic(document.getElementById('music-search-input').value)">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </button>
+                        </div>
+                        
+                        <div id="music-list-container">
+                            <!-- Треки будут добавлены через JS -->
+                        </div>
+
+                        <div class="volume-control-section" style="background: var(--bg-input); padding: 15px; border-radius: 16px; margin-top: 15px;">
+                            <div class="sub-text" style="display: flex; justify-content: space-between;">
+                                <span>Громкость музыки</span>
+                                <span id="volume-value" style="color: var(--purple-text); font-weight: 700;">30%</span>
+                            </div>
+                            <div class="range-container">
+                                <input type="range" id="music-volume-slider" min="0" max="100" value="30" oninput="setVolume(this.value)">
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <!-- БЛОК SFX -->
+                        <div class="section-title">Звуковые эффекты (SFX)</div>
+                        <div class="toggle-row">
+                            <span class="toggle-label">Клик мыши</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-row">
+                            <span class="toggle-label">Звук воды</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-row">
+                            <span class="toggle-label">Свуп (вжух)</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+
+                        <div class="volume-control-section" style="background: var(--bg-input); padding: 15px; border-radius: 16px; margin-top: 15px;">
+                            <div class="sub-text" style="display: flex; justify-content: space-between;">
+                                <span>Громкость SFX</span>
+                                <span id="sfx-volume-value" style="color: var(--purple-text); font-weight: 700;">50%</span>
+                            </div>
+                            <div class="range-container">
+                                <input type="range" id="sfx-volume-slider" min="0" max="100" value="50" oninput="document.getElementById('sfx-volume-value').innerText = this.value + '%'">
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="card-section">
+                            <div class="section-title">Нарезка <span class="help-icon">?</span></div>
+                            <div class="pill-group" style="margin-bottom: 15px;">
+                                <button class="pill-btn" onclick="selectPill(this)">Умная</button>
+                                <button class="pill-btn" onclick="selectPill(this)">Лёгкая</button>
+                                <button class="pill-btn active" onclick="selectPill(this)">Без нарезки</button>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="card-section">
+                            <div class="section-title">Прослушать склейку <span class="help-icon">?</span></div>
+                            <div class="audio-editor">
+                                <div class="audio-timeline" id="audio-timeline">
+                                    <div class="waveform"></div>
+                                    <div class="trim-handle left" id="handle-left"></div>
+                                    <div class="trim-handle right" id="handle-right"></div>
+                                    <div class="playhead" id="playhead"></div>
+                                </div>
+                                <div class="audio-controls">
+                                    <button class="btn-play" id="btn-play" onclick="togglePlay()">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Слушать
+                                    </button>
+                                    <div class="frame-adjust">
+                                        <button class="btn-frame" onclick="adjustFrames(-1)">-</button>
+                                        <span id="frame-display">0 кадров</span>
+                                        <button class="btn-frame" onclick="adjustFrames(1)">+</button>
+                                    </div>
+                                </div>
+                                <button class="btn-auto-cut" id="btn-auto-cut" onclick="autoCutSilence()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> Убрать всю тишину
+                                </button>
+                                <div class="info-tip" id="audio-info-tip">
+                                    Если речь звучит «дёргано», сдвиньте края фрагментов на 2–3 кадра.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="card-section">
+                            <div class="toggle-row"><span class="toggle-label">Наезды на склейках <span class="help-icon">?</span></span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                            <div class="toggle-row"><span class="toggle-label">Звуки на событиях <span class="help-icon">?</span></span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                            <div class="toggle-row"><span class="toggle-label">Оформление акцентами <span class="help-icon">?</span></span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                            <div class="toggle-row"><span class="toggle-label">Анимированная графика <span class="help-icon">?</span></span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                            <div class="toggle-row"><span class="toggle-label">Перебивки по смыслу <span class="help-icon">?</span></span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                            <div class="toggle-row"><span class="toggle-label">Стикеры по смыслу <span class="help-icon">?</span></span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+
+                        <div class="divider"></div>
+                        <div class="card-section">
+                            <div class="section-title">Скорость ролика <span class="help-icon">?</span></div>
+                            <div class="pill-group">
+                                <button class="pill-btn active" onclick="selectPill(this)">Без ускорения</button>
+                                <button class="pill-btn" onclick="selectPill(this)">×1.10</button>
+                                <button class="pill-btn" onclick="selectPill(this)">×1.15</button>
+                                <button class="pill-btn" onclick="selectPill(this)">×1.20</button>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+                        <div class="card-section">
+                            <div class="toggle-row"><span class="toggle-label">Цензура: убрать мат <span class="help-icon">?</span></span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+                            <div class="toggle-row"><span class="toggle-label">Цензура: стоп-слова <span class="help-icon">?</span></span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+                            <div class="toggle-row"><span class="toggle-label">Улучшить голос <span class="help-icon">?</span></span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ВКЛАДКА МАТЕРИАЛЫ -->
+                <div id="tab-materials" class="tab-content">
+                    <div class="settings-card">
+                        <div class="info-box" data-i18n="mat_info">Ваши материалы — фото и видео встанут туда, где вы о них говорите.</div>
+
+                        <div class="section-title" data-i18n="memes_block">Мемы и тренды</div>
+                        
+                        <div class="toggle-row" style="margin-bottom: 15px;">
+                            <span class="toggle-label" data-i18n="auto_memes">Авто-подбор мемов по контексту</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+
+                        <button class="ai-suggest-btn" onclick="aiSuggestMemes(this)">
+                            🎯 Предложить мемы для этого ролика
+                        </button>
+
+                        <div class="meme-timeline" id="meme-timeline">
+                            <div style="font-size: 12px; font-weight: 700; color: var(--purple-text); margin-bottom: 8px;">📍 ИИ предлагает вставить:</div>
+                            <div class="meme-timeline-item"><span class="meme-timeline-time">00:04</span> <span>Удивленный кот (реакция)</span></div>
+                            <div class="meme-timeline-item"><span class="meme-timeline-time">00:12</span> <span>Спанчбоб (смех)</span></div>
+                            <div class="meme-timeline-item"><span class="meme-timeline-time">00:21</span> <span>Doge (акцент на словах)</span></div>
+                        </div>
+
+                        <div class="search-container" style="margin-top: 10px;">
+                            <input type="text" class="search-input" id="meme-search-input" placeholder="Поиск мема..." oninput="searchMemes(this.value)">
+                            <button class="search-btn" onclick="searchMemes(document.getElementById('meme-search-input').value)">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </button>
+                        </div>
+
+                        <div class="meme-grid" id="meme-grid-container">
+                            <!-- Мемы будут добавлены через JS -->
+                        </div>
+
+                        <div class="divider"></div>
+                        <div class="section-title" data-i18n="upload_own">Свои фото и видео</div>
+                        <button class="upload-material-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            + Загрузить файл
+                        </button>
+                    </div>
+                </div>
+            </div> <!-- Конец экрана Монтаж -->
+
+            <!-- ================= ЭКРАН 2: ВЕРСИИ (ПЕРЕЗАЛИВ) ================= -->
+            <div id="screen-versions" class="main-screen">
+                <div id="versions-view">
+                    <div class="versions-banner">
+                        <div class="versions-banner-header">
+                            <div class="versions-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6.35 6.35A7.958 7.958 0 0 1 12 4c4.42 0 7.99 3.58 7.99 8s-3.57 8-7.99 8c-3.73 0-6.84-2.55-7.73-6h2.08A5.99 5.99 0 0 0 12 18c3.31 0 6-2.69 6-6s-2.69-6-6-6c-1.66 0-3.14.69-4.22 1.78L11 11H4V4l2.35 2.35z"/></svg>
+                            </div>
+                            <div class="versions-title" data-i18n="reupload_title">Перезалив</div>
+                            <div class="versions-badge" data-i18n="free_badge">1 бесплатно</div>
+                        </div>
+                        <div class="versions-desc" data-i18n="reupload_desc">Выберите ролик, который уже монтировали, измените кадр, скорость или цвет и выложите снова.</div>
+                    </div>
+
+                    <div class="copies-title" style="margin-top:15px;" data-i18n="select_edited_reel">Выберите ваш готовый ролик</div>
+                    <div class="versions-gallery">
+                        <div class="gallery-item active" onclick="selectGalleryItem(this, 'vid_1')">
+                            <div class="gallery-thumb" style="background-image: url('https://picsum.photos/200/400?random=1');">
+                                <div class="gallery-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            </div>
+                            <div class="gallery-label">Ролик 1</div>
+                        </div>
+                        <div class="gallery-item" onclick="selectGalleryItem(this, 'vid_2')">
+                            <div class="gallery-thumb" style="background-image: url('https://picsum.photos/200/400?random=2');">
+                                <div class="gallery-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            </div>
+                            <div class="gallery-label">Ролик 2</div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-row" onclick="toggleCheckbox(this)">
+                        <div class="custom-checkbox checked"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="checkbox-label" data-i18n="mirror">Зеркало</div>
+                    </div>
+                    <div class="checkbox-row" onclick="toggleCheckbox(this)">
+                        <div class="custom-checkbox"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="checkbox-label" data-i18n="edges">Сохранить края</div>
+                    </div>
+                    
+                    <div class="copies-title" style="margin-top:15px;" data-i18n="copies_count">Сколько копий</div>
+                    <div class="copies-grid">
+                        <button class="copy-btn active" onclick="selectPill(this)">1</button>
+                        <button class="copy-btn" onclick="selectPill(this)">2</button>
+                        <button class="copy-btn" onclick="selectPill(this)">3</button>
+                        <button class="copy-btn" onclick="selectPill(this)">5</button>
+                    </div>
+                    
+                    <button class="versions-btn" style="margin-top:15px;" onclick="sendReuploadRequest()">
+                        <span data-i18n="btn_reupload">Сделать перезалив</span>
+                        <div class="versions-btn-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6.35 6.35A7.958 7.958 0 0 1 12 4c4.42 0 7.99 3.58 7.99 8s-3.57 8-7.99 8c-3.73 0-6.84-2.55-7.73-6h2.08A5.99 5.99 0 0 0 12 18c3.31 0 6-2.69 6-6s-2.69-6-6-6c-1.66 0-3.14.69-4.22 1.78L11 11H4V4l2.35 2.35z"/></svg>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================= ЭКРАН 3: МОИ РОЛИКИ ================= -->
+            <div id="screen-reels" class="main-screen">
+                <div class="reels-container">
+                    <h1 class="reels-title" data-i18n="my_reels">Мои ролики</h1>
+                    <p class="reels-desc" data-i18n="reels_desc">Хранятся 14 дней. «Изменить» — поправить текст и оформление или открыть в редакторе.</p>
+                    <div class="empty-state" data-i18n="empty_reels">
+                        Здесь будут готовые ролики. Начните с «Монтажа» — вкладка внизу.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= ЭКРАН 4: ПРОФИЛЬ ================= -->
+            <div id="screen-profile" class="main-screen">
+                <div class="profile-container">
+                    <div class="top-cards">
+                        <div class="top-card">
+                            <div class="top-card-header"><span data-i18n="montage_upper">МОНТАЖ</span></div>
+                            <div class="top-card-circle">0</div>
+                            <div class="top-card-title" data-i18n="montages">Монтажей</div>
+                            <div class="top-card-desc" data-i18n="ready_reels">Готовые ролики</div>
+                            <button class="top-card-btn" data-i18n="top_up">Пополнить</button>
+                        </div>
+                        <div class="top-card">
+                            <div class="top-card-header"><span data-i18n="reuploads_upper">ПЕРЕЗАЛИВЫ</span></div>
+                            <div class="top-card-circle">0</div>
+                            <div class="top-card-title" data-i18n="reuploads">Перезаливов</div>
+                            <div class="top-card-desc" data-i18n="new_versions">Новые версии роликов</div>
+                            <button class="top-card-btn" data-i18n="top_up">Пополнить</button>
+                        </div>
+                    </div>
+
+                    <div class="section-title" data-i18n="earn_with">ЗАРАБАТЫВАТЬ С ROBELEN</div>
+                    <div class="earn-card" onclick="openRefModal()">
+                        <div class="earn-row">
+                            <div class="earn-info">
+                                <h3 data-i18n="invite_friend">Пригласить друга</h3>
+                                <p data-i18n="invite_desc">Другу -10% на монтаж, вам бонусы за его оплаты</p>
+                            </div>
+                            <div class="earn-actions" onclick="event.stopPropagation()">
+                                <div class="icon-btn" onclick="copyRefLink()">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                </div>
+                                <button class="text-btn" onclick="shareRefLink()" data-i18n="send">Отправить</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title" data-i18n="purchases">ПОКУПКИ</div>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" onclick="switchPurchases('montage', this)">Монтаж</button>
+                        <button class="toggle-btn" onclick="switchPurchases('reupload', this)">Перезаливы</button>
+                    </div>
+                    
+                    <div class="package-list active" id="pkg-montage">
+                        <div class="package-item"><div class="pkg-left"><h4>5 Монтажей</h4><p>100 ₽ / шт</p></div><div class="pkg-right"><div class="pkg-price">500 ₽</div></div></div>
+                        <div class="package-item"><div class="pkg-left"><h4>10 Монтажей</h4><p>90 ₽ / шт</p></div><div class="pkg-right"><div class="pkg-price">900 ₽</div><div class="pkg-discount">-10%</div></div></div>
+                        <div class="package-item"><div class="pkg-left"><h4>25 Монтажей</h4><p>80 ₽ / шт</p></div><div class="pkg-right"><div class="pkg-price">2000 ₽</div><div class="pkg-discount">-20%</div></div></div>
+                        <div class="package-item"><div class="pkg-left"><h4>50 Монтажей</h4><p>70 ₽ / шт</p></div><div class="pkg-right"><div class="pkg-price">3500 ₽</div><div class="pkg-discount">-30%</div></div></div>
+                    </div>
+                    
+                    <div class="package-list" id="pkg-reupload">
+                        <div class="package-item"><div class="pkg-left"><h4>10 Перезаливов</h4><p>19 ₽ / шт</p></div><div class="pkg-right"><div class="pkg-price">190 ₽</div></div></div>
+                        <div class="package-item"><div class="pkg-left"><h4>30 Перезаливов</h4><p>17 ₽ / шт</p></div><div class="pkg-right"><div class="pkg-price">510 ₽</div><div class="pkg-discount">-10%</div></div></div>
+                        <div class="package-item"><div class="pkg-left"><h4>60 Перезаливов</h4><p>15 ₽ / шт</p></div><div class="pkg-right"><div class="pkg-price">900 ₽</div><div class="pkg-discount">-20%</div></div></div>
+                    </div>
+
+                    <div class="settings-box">
+                        <div class="settings-header" data-i18n="theme_lang">Тема и язык</div>
+                        <div class="chips-row">
+                            <div class="chip" id="btn-theme-light" onclick="setTheme('light')">Светлая</div>
+                            <div class="chip" id="btn-theme-dark" onclick="setTheme('dark')">Тёмная</div>
+                            <div class="chip active" id="btn-theme-auto" onclick="setTheme('auto')">Системная</div>
+                        </div>
+                        <div class="chips-row">
+                            <div class="chip" id="btn-lang-ru" onclick="setLanguage('ru')">Русский</div>
+                            <div class="chip" id="btn-lang-en" onclick="setLanguage('en')">English</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижняя панель -->
+        <div class="bottom-panel">
+            <div class="main-cta" id="main-cta-btn" style="display: none;" onclick="document.getElementById('video-input').click()">
+                <div class="cta-text">
+                    <span class="cta-title">Выбрать видео</span>
+                    <span class="cta-sub">можно несколько - до 3 минут</span>
+                </div>
+                <div class="upload-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                </div>
+            </div>
+            <input type="file" id="video-input" accept="video/*" multiple style="display: none;" onchange="handleVideoSelect(event)">
+            <div class="file-upload-list" id="file-list" style="display: none; margin-bottom: 10px;"></div>
+
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-versions" onclick="switchMainScreen('versions')"><span class="nav-icon">🔄</span><span class="nav-label">Версии</span></div>
+                <div class="nav-item active" id="nav-montage" onclick="switchMainScreen('montage')"><span class="nav-icon">✂️</span><span class="nav-label">Монтаж</span></div>
+                <div class="nav-item" id="nav-reels" onclick="switchMainScreen('reels')"><span class="nav-icon">▶️</span><span class="nav-label">Ролики</span></div>
+                <div class="nav-item" id="nav-profile" onclick="switchMainScreen('profile')"><span class="nav-icon">👤</span><span class="nav-label">Профиль</span></div>
+            </div>
+        </div>
+
+        <!-- Модалки -->
+        <div class="modal-overlay" id="ref-modal" onclick="closeRefModal(event)">
+            <div class="ref-modal" onclick="event.stopPropagation()">
+                <div class="ref-modal-title">Пригласить друга</div>
+                <div class="ref-modal-text"><b>Другу:</b> первый ролик бесплатно и -10% на все пакеты.</div>
+                <div class="ref-modal-text" style="margin-top: 10px;"><b>Вам:</b></div>
+                <ul class="ref-modal-list">
+                    <li>20% от каждой оплаты монтажей;</li>
+                    <li>+1 монтаж за его первую покупку;</li>
+                    <li>3 купивших друга – еще +15 перезаливов.</li>
+                </ul>
+                <button class="btn-close-modal" onclick="closeRefModal()">Понятно</button>
+            </div>
+        </div>
+
+        <!-- Модалка Цвета -->
+        <div class="modal-overlay" id="color-modal">
+            <div class="ref-modal" style="align-items: center;">
+                <div class="ref-modal-title">Выбор цвета</div>
+                <div class="modal-color-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 15px 0;">
+                    <div class="grid-color" style="background: #FF6B6B; width: 40px; height: 40px; border-radius: 50%;" onclick="pickGridColor('#FF6B6B', this)"></div>
+                    <div class="grid-color" style="background: #FFD60A; width: 40px; height: 40px; border-radius: 50%;" onclick="pickGridColor('#FFD60A', this)"></div>
+                    <div class="grid-color" style="background: #34C759; width: 40px; height: 40px; border-radius: 50%;" onclick="pickGridColor('#34C759', this)"></div>
+                    <div class="grid-color" style="background: #00BFFF; width: 40px; height: 40px; border-radius: 50%;" onclick="pickGridColor('#00BFFF', this)"></div>
+                    <div class="grid-color" style="background: #A855F7; width: 40px; height: 40px; border-radius: 50%;" onclick="pickGridColor('#A855F7', this)"></div>
+                    <div class="grid-color" style="background: #FF1493; width: 40px; height: 40px; border-radius: 50%;" onclick="pickGridColor('#FF1493', this)"></div>
+                    <div class="grid-color" style="background: #1C1C1E; width: 40px; height: 40px; border-radius: 50%;" onclick="pickGridColor('#1C1C1E', this)"></div>
+                    <div class="grid-color" style="background: #FFFFFF; width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd;" onclick="pickGridColor('#FFFFFF', this)"></div>
+                </div>
+                <label for="native-color-picker" style="width: 100%; text-align: center; font-size: 14px; font-weight: 700; color: var(--purple-text); cursor: pointer; margin-bottom: 10px;">Выбрать свой оттенок</label>
+                <input type="color" id="native-color-picker" style="opacity: 0; position: absolute; width: 0; height: 0;" oninput="pickGridColor(this.value, null)">
+                <div id="modal-preview" style="width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 15px; border: 3px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.2);"></div>
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <button class="btn-close-modal" style="flex: 1;" onclick="closeColorModal()">Отмена</button>
+                    <button class="btn-close-modal" style="flex: 1; background: var(--logo-gradient); color: #fff;" onclick="confirmColor()">ОК</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast" id="toast">Ссылка скопирована!</div>
+    </div>
+
+    <script>
+        // ================= ИНИЦИАЛИЗАЦИЯ =================
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        const userId = tg.initDataUnsafe?.user?.id || '12345678';
+        const referralLink = `https://t.me/robelen_super_bot?start=ref_${userId}`;
+
+        // ================= БАЗЫ ДАННЫХ (МУЗЫКА И МЕМЫ) =================
+        const musicLibrary = [
+            { name: 'Top Hit 2024', artist: 'Popular Artist • 120 BPM', src: 'https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg', icon: '🎵' },
+            { name: 'Энергичный бит', artist: 'Trendy Sound • 130 BPM', src: 'https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg', icon: '🔥' },
+            { name: 'Спокойный Lo-Fi', artist: 'Chill Vibes • 90 BPM', src: 'https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg', icon: '🌊' },
+            { name: 'Мотивация', artist: 'Epic Music • 140 BPM', src: 'https://actions.google.com/sounds/v1/crowds/crowd_cheer.ogg', icon: '🚀' },
+            { name: 'Грустный пианино', artist: 'Sad Vibes • 70 BPM', src: 'https://actions.google.com/sounds/v1/ambiences/rain_on_window.ogg', icon: '🎹' },
+            { name: 'Ретро Вайб', artist: 'Synthwave • 110 BPM', src: 'https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg', icon: '🕹️' },
+            { name: 'Хип-Хоп Бит', artist: 'Street Style • 95 BPM', src: 'https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg', icon: '🎤' },
+            { name: 'Космический эмбиент', artist: 'Space • 60 BPM', src: 'https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg', icon: '🌌' }
+        ];
+
+        const memeLibrary = [
+            { title: 'Удивленный кот', img: 'https://i.imgflip.com/1ur9b0.jpg' },
+            { title: 'Спанчбоб', img: 'https://i.imgflip.com/261o3j.jpg' },
+            { title: 'Doge (Собака)', img: 'https://i.imgflip.com/1otk96.jpg' },
+            { title: 'Кот и женщина', img: 'https://i.imgflip.com/43a45p.png' },
+            { title: 'Смеющийся Том', img: 'https://i.imgflip.com/1otk96.jpg' },
+            { title: 'Шок (Гиф)', img: 'https://i.imgflip.com/1ur9b0.jpg' }
+        ];
+
+        // ================= РЕНДЕР МУЗЫКИ И МЕМОВ =================
+        function renderMusic(filter = '') {
+            const container = document.getElementById('music-list-container');
+            container.innerHTML = '';
+            const lowerFilter = filter.toLowerCase();
+
+            musicLibrary.forEach(track => {
+                if (track.name.toLowerCase().includes(lowerFilter) || track.artist.toLowerCase().includes(lowerFilter)) {
+                    const div = document.createElement('div');
+                    div.className = 'music-item';
+                    div.onclick = function() { toggleMusic(this, track.src); };
+                    div.innerHTML = `
+                        <div class="music-cover">${track.icon}</div>
+                        <div class="music-details">
+                            <div class="music-name">${track.name}</div>
+                            <div class="music-artist">${track.artist}</div>
+                        </div>
+                        <div class="music-play">▶</div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+        }
+
+        function renderMemes(filter = '') {
+            const container = document.getElementById('meme-grid-container');
+            container.innerHTML = '';
+            const lowerFilter = filter.toLowerCase();
+
+            memeLibrary.forEach(meme => {
+                if (meme.title.toLowerCase().includes(lowerFilter)) {
+                    const div = document.createElement('div');
+                    div.className = 'meme-card';
+                    div.setAttribute('data-title', meme.title);
+                    div.onclick = function() { this.classList.toggle('active'); tg.HapticFeedback.impactOccurred('light'); };
+                    div.innerHTML = `
+                        <div class="meme-check">✓</div>
+                        <img src="${meme.img}" class="meme-img" alt="Meme">
+                        <div class="meme-title">${meme.title}</div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+        }
+
+        // Инициализация списков при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMusic();
+            renderMemes();
+            
+            const savedLang = localStorage.getItem('app_lang') || 'ru';
+            const savedTheme = localStorage.getItem('app_theme') || 'auto';
+            setLanguage(savedLang);
+            setTheme(savedTheme);
+            updateRecommendedTitleFonts('Inter');
+        });
+
+        // ================= ПОИСК =================
+        function searchMusic(query) {
+            renderMusic(query);
+        }
+
+        function searchMemes(query) {
+            renderMemes(query);
+        }
+
+        // ================= ВЫБОР ВИДЕО =================
+        function handleVideoSelect(event) {
+            const files = event.target.files;
+            const fileListDiv = document.getElementById('file-list');
+            
+            if (files.length > 0) {
+                fileListDiv.style.display = 'flex';
+                fileListDiv.innerHTML = '<span style="color: var(--text-main); font-size: 11px;">Выбрано файлов: ' + files.length + '</span>';
+                
+                for (let i = 0; i < files.length; i++) {
+                    const fileDiv = document.createElement('div');
+                    fileDiv.style.display = 'flex';
+                    fileDiv.style.alignItems = 'center';
+                    fileDiv.style.gap = '5px';
+                    fileDiv.style.color = 'var(--purple-text)';
+                    fileDiv.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> ${files[i].name} (${(files[i].size / 1024 / 1024).toFixed(1)} МБ)`;
+                    fileListDiv.appendChild(fileDiv);
+                }
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+
+        // ================= СМЕНА ФОРМАТА =================
+        function setFormat(element, format) {
+            const group = document.getElementById('format-group');
+            group.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            const box = document.getElementById('main-preview-box');
+            const title = document.getElementById('preview-title');
+            const text = document.getElementById('preview-text');
+            
+            if(format === '9:16') { 
+                box.style.width = '170px'; box.style.height = '300px'; 
+                title.style.top = '35px'; text.style.top = '60%';
+            }
+            else if(format === '16:9') { 
+                box.style.width = '300px'; box.style.height = '170px'; 
+                title.style.top = '15px'; text.style.top = '75%';
+            }
+            else if(format === '1:1') { 
+                box.style.width = '240px'; box.style.height = '240px'; 
+                title.style.top = '25px'; text.style.top = '60%';
+            }
+            else if(format === '4:5') { 
+                box.style.width = '200px'; box.style.height = '250px'; 
+                title.style.top = '25px'; text.style.top = '60%';
+            }
+            else if(format === '4:3') { 
+                box.style.width = '260px'; box.style.height = '195px'; 
+                title.style.top = '15px'; text.style.top = '70%';
+            }
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        // ================= МУЗЫКА =================
+        let currentlyPlaying = null;
+
+        function toggleMusic(element, audioSrc) {
+            const icon = element.querySelector('.music-play');
+            const audio = document.getElementById('audio-player');
+
+            if (currentlyPlaying === audioSrc) {
+                audio.pause();
+                icon.innerText = '▶';
+                element.classList.remove('active');
+                currentlyPlaying = null;
+            } else {
+                document.querySelectorAll('.music-play').forEach(el => el.innerText = '▶');
+                document.querySelectorAll('.music-item').forEach(el => el.classList.remove('active'));
+                
+                audio.src = audioSrc;
+                audio.volume = document.getElementById('music-volume-slider').value / 100;
+                audio.play();
+                icon.innerText = '⏸';
+                element.classList.add('active');
+                currentlyPlaying = audioSrc;
+            }
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        function setVolume(val) {
+            document.getElementById('volume-value').innerText = val + '%';
+            document.getElementById('audio-player').volume = val / 100;
+        }
+
+        // ================= ИИ ПОДБОР =================
+        function aiSuggestMusic(btn) {
+            if (btn.style.pointerEvents === 'none') return;
+            const originalText = btn.innerHTML;
+            btn.style.pointerEvents = 'none';
+            
+            const steps = ['🎧 Слушаю вашу речь...', '🧠 Анализирую настроение...', '🎵 Ищу идеальный трек...'];
+            let currentStep = 0;
+            btn.innerHTML = steps[currentStep];
+            
+            const interval = setInterval(() => {
+                currentStep++;
+                if (currentStep < steps.length) btn.innerHTML = steps[currentStep];
+            }, 800);
+
+            setTimeout(() => {
+                clearInterval(interval);
+                const tracks = document.querySelectorAll('#music-list-container .music-item');
+                if(tracks.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * tracks.length);
+                    const selectedTrack = tracks[randomIndex];
+                    
+                    document.querySelectorAll('.music-play').forEach(el => el.innerText = '▶');
+                    document.querySelectorAll('.music-item').forEach(el => el.classList.remove('active'));
+                    selectedTrack.click();
+                }
+                
+                btn.innerHTML = '✅ ИИ подобрал идеальный трек!';
+                btn.style.background = 'rgba(52, 199, 89, 0.15)';
+                btn.style.color = '#34C759';
+                btn.style.borderColor = '#34C759';
+                tg.HapticFeedback.notificationOccurred('success');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.style.borderColor = '';
+                    btn.style.pointerEvents = 'all';
+                }, 3500);
+            }, 2500);
+        }
+
+        function aiSuggestMemes(btn) {
+            if (btn.style.pointerEvents === 'none') return;
+            const originalText = btn.innerHTML;
+            btn.style.pointerEvents = 'none';
+            btn.innerHTML = '🧠 Анализирую контекст видео...';
+            
+            setTimeout(() => {
+                btn.innerHTML = '✅ Готово! Посмотрите таймлайн';
+                btn.style.background = 'rgba(52, 199, 89, 0.15)';
+                btn.style.color = '#34C759';
+                btn.style.borderColor = '#34C759';
+                
+                document.getElementById('meme-timeline').style.display = 'block';
+                tg.HapticFeedback.notificationOccurred('success');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.style.borderColor = '';
+                    btn.style.pointerEvents = 'all';
+                }, 4000);
+            }, 2000);
+        }
+
+        // ================= ОСТАЛЬНАЯ ЛОГИКА =================
+        function setLanguage(lang) {
+            localStorage.setItem('app_lang', lang);
+            document.getElementById('btn-lang-ru').classList.toggle('active', lang === 'ru');
+            document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+        }
+
+        function setTheme(theme) {
+            localStorage.setItem('app_theme', theme);
+            document.getElementById('btn-theme-light').classList.remove('active');
+            document.getElementById('btn-theme-dark').classList.remove('active');
+            document.getElementById('btn-theme-auto').classList.remove('active');
+            
+            if (theme === 'light') {
+                document.body.classList.remove('dark-theme');
+                document.getElementById('btn-theme-light').classList.add('active');
+            } else if (theme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.getElementById('btn-theme-dark').classList.add('active');
+            } else {
+                document.getElementById('btn-theme-auto').classList.add('active');
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-theme');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                }
+            }
+        }
+        
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (localStorage.getItem('app_theme') === 'auto' || !localStorage.getItem('app_theme')) {
+                if (e.matches) document.body.classList.add('dark-theme');
+                else document.body.classList.remove('dark-theme');
+            }
+        });
+
+        function switchMainScreen(screenName) {
+            document.querySelectorAll('.main-screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('screen-' + screenName).classList.add('active');
+            document.getElementById('nav-' + screenName).classList.add('active');
+            const ctaBtn = document.getElementById('main-cta-btn');
+            ctaBtn.style.display = (screenName === 'montage') ? 'flex' : 'none';
+        }
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function switchPurchases(type, element) {
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            document.querySelectorAll('.package-list').forEach(list => list.classList.remove('active'));
+            document.getElementById('pkg-' + type).classList.add('active');
+        }
+
+        function sendVideoRequest() {
+            tg.sendData(JSON.stringify({ action: "request_video" }));
+            tg.close();
+        }
+
+        function sendReuploadRequest() {
+            const mirrorChecked = document.querySelectorAll('#screen-versions .custom-checkbox')[0].classList.contains('checked');
+            const edgesChecked = document.querySelectorAll('#screen-versions .custom-checkbox')[1].classList.contains('checked');
+            const selectedCopyBtn = document.querySelector('#screen-versions .copy-btn.active');
+            const copiesCount = selectedCopyBtn ? selectedCopyBtn.innerText : "1";
+            const payload = { action: "reupload_video", mirror: mirrorChecked, edges: edgesChecked, copies: copiesCount };
+            tg.sendData(JSON.stringify(payload));
+            tg.close();
+        }
+
+        const fontPairings = {
+            'Inter': ['Cormorant Garamond', 'Playfair Display', 'Lora', 'Great Vibes', 'Yeseva One'],
+            'Montserrat': ['Cormorant Garamond', 'Merriweather', 'Playfair Display', 'Great Vibes', 'Marck Script'],
+            'Bebas Neue': ['Inter', 'Jost', 'Golos Text', 'Manrope'],
+            'Golos Text': ['Playfair Display', 'Cormorant Garamond', 'Bebas Neue', 'Lora'],
+            'Rubik': ['Jost', 'Montserrat', 'Manrope'],
+            'Oswald': ['Inter', 'Merriweather', 'Jost', 'Lora'],
+            'Playfair Display': ['Montserrat', 'Inter', 'Jost', 'Archivo Black', 'Manrope'],
+            'Caveat': ['Montserrat', 'Inter', 'Jost', 'Archivo Black'],
+            'Unbounded': ['Inter', 'Jost', 'Montserrat', 'Manrope'],
+            'Comfortaa': ['Playfair Display', 'Cormorant Garamond', 'Merriweather', 'Cinzel'],
+            'Jost': ['Cormorant Garamond', 'Playfair Display', 'Great Vibes', 'Cinzel'],
+            'Marck Script': ['Montserrat', 'Jost', 'Inter', 'Manrope'],
+            'Archivo Black': ['Lora', 'Playfair Display', 'Cormorant Garamond', 'Cinzel'],
+            'Teko': ['Montserrat', 'Inter', 'Manrope', 'Oswald'],
+            'Manrope': ['Playfair Display', 'Lora', 'Cinzel', 'Dancing Script'],
+            'Lora': ['Archivo Black', 'Montserrat', 'Manrope', 'Inter'],
+            'Cinzel': ['Manrope', 'Jost', 'Comfortaa', 'Archivo Black'],
+            'Dancing Script': ['Manrope', 'Inter', 'Montserrat', 'Archivo Black']
+        };
+
+        function selectReady(element, type) {
+            document.querySelectorAll('.ready-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            const previewTitle = document.getElementById('preview-title');
+            const previewText = document.getElementById('preview-text');
+            const previewGraphic = document.getElementById('preview-graphic');
+            const manualText = document.getElementById('manual-setup-text');
+
+            if (type === 'only_subs') {
+                previewTitle.style.display = 'none'; previewGraphic.style.display = 'none'; previewText.style.display = 'block';
+                manualText.innerText = "Настроено вручную: Только субтитры";
+            } else if (type === 'subs_title') {
+                previewTitle.style.display = 'block'; previewGraphic.style.display = 'none'; previewText.style.display = 'block';
+                manualText.innerText = "Настроено вручную: Субтитры и заголовок";
+            } else if (type === 'full') {
+                previewTitle.style.display = 'block'; previewGraphic.style.display = 'block'; previewText.style.display = 'block';
+                manualText.innerText = "Настроено вручную: Полный монтаж";
+            }
+            manualText.classList.add('custom-mode');
+        }
+
+        function selectDot(element, name, type) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.s-dot').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            if(type === 'sub') {
+                document.getElementById('style-name-text').innerText = 'Стиль субтитров: ' + name;
+                updateSubtitlePreview(name);
+            } else if (type === 'title') {
+                document.getElementById('style-name-text-title').innerText = 'Заголовок: ' + name;
+                updateTitlePreview(name);
+            }
+        }
+
+        function updateSubtitlePreview(styleName) {
+            const el = document.getElementById('preview-text');
+            el.style.display = 'block';
+            if (styleName === 'Без субтитров') el.style.display = 'none';
+            else if (styleName === 'Строка') { el.innerHTML = 'ЭТО МОЙ ЛЮБИМЫЙ МОМЕНТ'; el.style.fontSize = '12px'; }
+            else if (styleName === 'Крупный акцент') { el.innerHTML = 'ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ'; el.style.fontSize = '16px'; }
+            else if (styleName === 'Две строки') { el.innerHTML = 'ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ'; el.style.fontSize = '14px'; }
+            else if (styleName === 'По слову') { el.innerHTML = 'МОМЕНТ'; el.style.fontSize = '24px'; }
+        }
+
+        function updateTitlePreview(styleName) {
+            const el = document.getElementById('preview-title');
+            el.style.display = 'block';
+            if (styleName === 'Без заголовка') el.style.display = 'none';
+            else if (styleName === 'Две строки') { el.innerHTML = 'ЗАГОЛОВОК<br>ДЛЯ РИЛС'; el.style.fontSize = '18px'; }
+            else if (styleName === 'Тонкий + жирный') { el.innerHTML = '<span style="font-weight:300">ЗАГОЛОВОК</span><br><span style="font-weight:900">ДЛЯ РИЛС</span>'; el.style.fontSize = '20px'; }
+            else if (styleName === 'Минимализм') { el.innerHTML = 'ЗАГОЛОВОК ДЛЯ РИЛС'; el.style.fontSize = '14px'; el.style.letterSpacing = '2px'; }
+        }
+
+        function playSubAnimation(element, animType) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+
+            const phoneEl = document.getElementById('preview-text');
+            const inlineBox = document.getElementById('inline-sub-preview');
+            const inlineText = document.getElementById('inline-sub-text');
+
+            inlineBox.style.display = 'flex';
+            phoneEl.className = 'preview-text'; inlineText.className = '';
+            phoneEl.innerHTML = 'ЭТО МОЙ<br>ЛЮБИМЫЙ МОМЕНТ'; inlineText.innerHTML = 'ЭТО МОЙ ЛЮБИМЫЙ МОМЕНТ';
+            void phoneEl.offsetWidth; void inlineText.offsetWidth; 
+
+            if (animType === 'word') {
+                const words = "ЭТО МОЙ ЛЮБИМЫЙ МОМЕНТ".split(" ");
+                phoneEl.innerHTML = ''; inlineText.innerHTML = '';
+                words.forEach((word, index) => {
+                    const spanP = document.createElement('span'); spanP.className = 'word-span'; spanP.style.animationDelay = (index * 0.15) + 's'; spanP.innerText = word + " "; phoneEl.appendChild(spanP);
+                    const spanI = document.createElement('span'); spanI.className = 'word-span'; spanI.style.animationDelay = (index * 0.15) + 's'; spanI.innerText = word + " "; inlineText.appendChild(spanI);
+                });
+            } else if (animType === 'spring') { phoneEl.classList.add('anim-spring'); inlineText.classList.add('anim-spring'); }
+            else if (animType === 'flash') { phoneEl.classList.add('anim-flash'); inlineText.classList.add('anim-flash'); }
+            else if (animType === 'typewriter') { phoneEl.classList.add('anim-typewriter'); inlineText.classList.add('anim-typewriter'); }
+        }
+
+        function playTitleAnimation(element, animType) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+
+            const phoneEl = document.getElementById('preview-title');
+            const inlineBox = document.getElementById('inline-title-preview');
+            const inlineText = document.getElementById('inline-title-text');
+
+            inlineBox.style.display = 'flex';
+            phoneEl.className = 'preview-title'; inlineText.className = '';
+            phoneEl.innerHTML = 'ЗАГОЛОВОК<br>ДЛЯ РИЛС'; inlineText.innerHTML = 'ЗАГОЛОВОК ДЛЯ РИЛС';
+            void phoneEl.offsetWidth; void inlineText.offsetWidth; 
+
+            if (animType === 'soft') { phoneEl.classList.add('anim-soft'); inlineText.classList.add('anim-soft'); }
+            else if (animType === 'curtain') { phoneEl.classList.add('anim-curtain'); inlineText.classList.add('anim-curtain'); }
+            else if (animType === 'typewriter') { phoneEl.innerHTML = 'ЗАГОЛОВОК ДЛЯ РИЛС'; phoneEl.classList.add('anim-typewriter'); inlineText.innerHTML = 'ЗАГОЛОВОК ДЛЯ РИЛС'; inlineText.classList.add('anim-typewriter'); }
+            else if (animType === 'zoom') { phoneEl.classList.add('anim-zoom'); inlineText.classList.add('anim-zoom'); }
+        }
+
+        function setTextSize(element, size, type) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            const el = type === 'sub' ? document.getElementById('preview-text') : document.getElementById('preview-title');
+            if (size === 'small') el.style.fontSize = type === 'sub' ? '12px' : '14px';
+            else if (size === 'medium') el.style.fontSize = type === 'sub' ? '16px' : '18px';
+            else if (size === 'large') el.style.fontSize = type === 'sub' ? '22px' : '24px';
+        }
+
+        function setTextAlign(element, align, type) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            const el = type === 'sub' ? document.getElementById('preview-text') : document.getElementById('preview-title');
+            el.style.textAlign = align;
+        }
+
+        function setSubPosition(element, pos) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            const slider = document.getElementById('sub-slider');
+            if (pos === 'top') slider.value = 20; if (pos === 'center') slider.value = 60; if (pos === 'bottom') slider.value = 85;
+            moveTextSlider(slider.value, 'sub');
+        }
+
+        function setTitlePosition(element, pos) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            const slider = document.getElementById('title-slider');
+            if (pos === 'top') slider.value = 15; if (pos === 'center') slider.value = 50; if (pos === 'bottom') slider.value = 75;
+            moveTextSlider(slider.value, 'title');
+        }
+
+        function moveTextSlider(value, type) {
+            const el = type === 'sub' ? document.getElementById('preview-text') : document.getElementById('preview-title');
+            el.style.top = (100 - value) + '%'; el.style.transform = 'translateY(-50%)';
+        }
+
+        function changeFont(element, fontName, type = 'sub') {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.font-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            if (type === 'sub') {
+                document.getElementById('preview-text').style.fontFamily = "'" + fontName + "', sans-serif";
+                document.getElementById('inline-sub-text').style.fontFamily = "'" + fontName + "', sans-serif";
+                updateRecommendedTitleFonts(fontName);
+            } else {
+                document.getElementById('preview-title').style.fontFamily = "'" + fontName + "', sans-serif";
+                document.getElementById('inline-title-text').style.fontFamily = "'" + fontName + "', sans-serif";
+            }
+        }
+
+        function updateRecommendedTitleFonts(subFont) {
+            const titleScroll = document.getElementById('font-scroll-title');
+            const titleBtns = titleScroll.querySelectorAll('.font-btn');
+            const hint = document.getElementById('title-pairing-hint');
+            titleBtns.forEach(btn => btn.classList.remove('recommended'));
+            const recommended = fontPairings[subFont] || [];
+            if (recommended.length > 0) {
+                titleBtns.forEach(btn => {
+                    const fontName = btn.getAttribute('data-font');
+                    if (recommended.includes(fontName)) btn.classList.add('recommended');
+                });
+                hint.innerText = "✨ Идеальные сочетания с «" + subFont + "» отмечены звездочкой";
+                hint.style.display = 'block';
+            } else { hint.style.display = 'none'; }
+        }
+
+        function selectPill(element) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.pill-btn, .copy-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        let currentColorType = 'sub';
+        let selectedColor = '#FFD60A';
+        
+        function setColor(element, colorHex, type = 'sub') {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.color-circle').forEach(el => el.classList.remove('active'));
+            parent.querySelector('.custom-color-wrapper').classList.remove('active');
+            element.classList.add('active');
+            if (type === 'sub') {
+                document.getElementById('preview-text').style.color = colorHex; document.getElementById('inline-sub-text').style.color = colorHex;
+            } else {
+                document.getElementById('preview-title').style.color = colorHex; document.getElementById('inline-title-text').style.color = colorHex;
+            }
+        }
+
+        function openColorModal(type) {
+            currentColorType = type;
+            document.getElementById('native-color-picker').value = selectedColor;
+            document.getElementById('modal-preview').style.backgroundColor = selectedColor;
+            document.querySelectorAll('.grid-color').forEach(el => el.classList.remove('active'));
+            document.getElementById('color-modal').classList.add('active');
+        }
+        function closeColorModal() { document.getElementById('color-modal').classList.remove('active'); }
+        
+        function pickGridColor(color, element) {
+            selectedColor = color; document.getElementById('modal-preview').style.backgroundColor = color;
+            if (element) { document.querySelectorAll('.grid-color').forEach(el => el.classList.remove('active')); element.classList.add('active'); }
+            else { document.querySelectorAll('.grid-color').forEach(el => el.classList.remove('active')); }
+        }
+        
+        function confirmColor() {
+            const wrapper = document.getElementById('custom-color-btn-' + currentColorType);
+            const parent = wrapper.parentElement;
+            parent.querySelectorAll('.color-circle').forEach(el => el.classList.remove('active'));
+            wrapper.classList.add('active'); wrapper.style.background = selectedColor;
+            if (currentColorType === 'sub') {
+                document.getElementById('preview-text').style.color = selectedColor; document.getElementById('inline-sub-text').style.color = selectedColor;
+            } else {
+                document.getElementById('preview-title').style.color = selectedColor; document.getElementById('inline-title-text').style.color = selectedColor;
+            }
+            closeColorModal();
+        }
+
+        function toggleCheckbox(row) {
+            const cb = row.querySelector('.custom-checkbox');
+            cb.classList.toggle('checked');
+        }
+
+        let isPlaying = false;
+        let playInterval;
+        let currentFrameOffset = 0;
+        let leftPosition = 20;
+        let rightPosition = 80;
+
+        function togglePlay() {
+            const playhead = document.getElementById('playhead');
+            const btnPlay = document.getElementById('btn-play');
+            if (isPlaying) {
+                isPlaying = false; clearInterval(playInterval);
+                btnPlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Слушать';
+            } else {
+                isPlaying = true;
+                btnPlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Пауза';
+                playhead.style.display = 'block';
+                let currentLeft = parseFloat(playhead.style.left) || leftPosition;
+                if (currentLeft >= rightPosition) currentLeft = leftPosition;
+                playInterval = setInterval(() => {
+                    currentLeft += 0.5;
+                    if (currentLeft >= rightPosition) {
+                        currentLeft = rightPosition; clearInterval(playInterval); isPlaying = false;
+                        btnPlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Слушать';
+                    }
+                    playhead.style.left = currentLeft + '%';
+                }, 20);
+            }
+        }
+
+        function adjustFrames(direction) {
+            currentFrameOffset += direction; if (currentFrameOffset > 5) currentFrameOffset = 5; if (currentFrameOffset < -5) currentFrameOffset = -5;
+            document.getElementById('frame-display').innerText = currentFrameOffset + ' кадров';
+            const leftHandle = document.getElementById('handle-left'); const rightHandle = document.getElementById('handle-right');
+            const shift = currentFrameOffset * 0.5;
+            leftPosition = 20 - shift; rightPosition = 80 + shift;
+            leftHandle.style.left = leftPosition + '%'; rightHandle.style.right = (100 - rightPosition) + '%';
+        }
+
+        const leftHandle = document.getElementById('handle-left');
+        const rightHandle = document.getElementById('handle-right');
+        
+        if(leftHandle && rightHandle) {
+            function makeDraggable(handle, isLeft) {
+                handle.onmousedown = function(e) {
+                    e.preventDefault(); const timelineRect = document.getElementById('audio-timeline').getBoundingClientRect();
+                    function onMouseMove(e) {
+                        let newX = ((e.clientX - timelineRect.left) / timelineRect.width) * 100;
+                        if (isLeft) {
+                            if (newX < 5) newX = 5; if (newX > rightPosition - 10) newX = rightPosition - 10;
+                            handle.style.left = newX + '%'; leftPosition = newX;
+                        } else {
+                            if (newX > 95) newX = 95; if (newX < leftPosition + 10) newX = leftPosition + 10;
+                            handle.style.right = (100 - newX) + '%'; rightPosition = newX;
+                        }
+                    }
+                    function onMouseUp() { document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); }
+                    document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp);
+                };
+            }
+            makeDraggable(leftHandle, true); makeDraggable(rightHandle, false);
+        }
+
+        function autoCutSilence() {
+            const btn = document.getElementById('btn-auto-cut');
+            const timeline = document.getElementById('audio-timeline');
+            const infoTip = document.getElementById('audio-info-tip');
+            if (btn.classList.contains('success')) return;
+            btn.innerHTML = '<div class="spinner" style="display: block;"></div> Анализ звука...'; btn.style.borderColor = 'transparent'; btn.style.color = '#8E8E93';
+            setTimeout(() => {
+                timeline.classList.add('auto-cut-active');
+                btn.classList.add('success'); btn.innerHTML = '✅ Тишина удалена (сэкономлено 4.2 сек)'; btn.style.borderColor = '#34C759'; btn.style.color = '#34C759';
+                infoTip.innerHTML = '<span style="color: #34C759; font-weight: bold;">Готово!</span> ИИ удалил все паузы и слова-паразиты. Вы можете прослушать результат.';
+                leftPosition = 10; rightPosition = 90;
+                if(leftHandle && rightHandle) { leftHandle.style.left = '10%'; rightHandle.style.right = '10%'; }
+            }, 1500);
+        }
+
+        function openRefModal() { document.getElementById('ref-modal').classList.add('active'); }
+        function closeRefModal(e) { if(e && e.target !== e.currentTarget) return; document.getElementById('ref-modal').classList.remove('active'); }
+        function copyRefLink() {
+            navigator.clipboard.writeText(referralLink).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+                tg.HapticFeedback.notificationOccurred('success');
+            });
+        }
+        function shareRefLink() {
+            const text = "Присоединяйся к ROBELEN! Твой первый ролик бесплатно:";
+            tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`);
+        }
+    </script>
+</body>
+</html>
